@@ -379,3 +379,12 @@ body {
     overflow-y: auto;
     background: radial-gradient(circle at top, #061018, #02060a);
 }
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+
+    background: radial-gradient(circle at top, #061018, #02060a);
+}
