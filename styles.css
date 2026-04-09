@@ -357,3 +357,9 @@ button:active {
         transform: translateY(0);
     }
 }
+
+.current-week {
+    border: 2px solid #00e0c6;
+    background: rgba(0,255,200,0.08);
+    box-shadow: 0 0 12px rgba(0,255,200,0.2);
+}
