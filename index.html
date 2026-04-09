@@ -900,31 +900,49 @@ function render() {
 
     if (currentPage === "progress") {
 
-        const week = selectedWeek;
-        const day = selectedDay;
-
-        const plannedData = progression[day]?.[week]?.exercises || {};
-        const planned = Object.keys(plannedData).map(name => ({
-            name: name,
-            ...plannedData[name]
-        }));
-        const saved = JSON.parse(localStorage.getItem(`log_${week}_${day}`)) || {};
+        const weeks = Object.keys(progression[selectedDay] || {}).sort((a,b)=>a-b);
+        const current = selectedWeek;
 
         content.innerHTML = `
             <h2>Progressió</h2>
-            <p>Setmana ${week}</p>
-            <p style="color:#aaa;">${progression[day]?.[week]?.phase || ""}</p>
 
-            ${planned.map((ex, i) => {
-                const real = saved[i]?.weight || "";
-                const done = saved[i]?.weight ? "#4CAF50" : "#aaa";
+            <div class="card">
+                <label>Dia:</label>
+                <select onchange="changeDay(this.value)">
+                    ${["Upper 1","Lower 1","Upper 2","Lower 2"].map(d => `
+                        <option value="${d}" ${d == selectedDay ? "selected" : ""}>
+                            ${d}
+                        </option>
+                    `).join("")}
+                </select>
+            </div>
+
+            ${weeks.map(w => {
+
+                const data = progression[selectedDay][w];
+                if (!data) return "";
+
+                const isCurrent = parseInt(w) === current;
 
                 return `
-                    <div class="card">
-                        <h3 style="color:${done}" onclick="showHistory('${ex.name}')">${ex.name}</h3>
-                        ${ex.top ? `<p>Top: ${ex.top}</p>` : ""}
-                        <p>Planificat: ${ex.work}</p>
-                        <p style="color:#4CAF50;">Real: ${real}</p>
+                    <div class="card ${isCurrent ? 'current-week' : ''}">
+
+                        <h3>
+                            Setmana ${w}
+                            ${isCurrent ? "" : ""}
+                        </h3>
+
+                        <div class="sub">${data.phase || ""}</div>
+
+                        ${Object.entries(data.exercises).map(([name, ex]) => `
+                            <div style="margin-top:8px;">
+                                <strong>${name}</strong><br>
+
+                                ${ex.top ? `<span class="top-set">${ex.top}</span><br>` : ""}
+                                ${ex.work ? `<span class="work">${ex.work}</span>` : ""}
+                            </div>
+                        `).join("")}
+
                     </div>
                 `;
             }).join("")}
