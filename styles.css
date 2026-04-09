@@ -1,0 +1,359 @@
+/* =========================
+   RESET + BASE
+========================= */
+* {
+    box-sizing: border-box;
+    transition: all 0.15s ease;
+}
+
+body {
+    margin: 0;
+    font-family: "SF Pro Display", -apple-system, sans-serif;
+    background: radial-gradient(circle at top, #061018, #02060a);
+    color: #d9faff;
+}
+
+body {
+    overscroll-behavior: none;
+    -webkit-touch-callout: none;
+}
+
+#content {
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* GRID SUAU (HUD) */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(0,255,200,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,200,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+}
+
+/* =========================
+   CONTENIDOR (MÒBIL)
+========================= */
+#content {
+    max-width: 430px;
+    margin: auto;
+    padding: 16px;
+    padding-bottom: 90px;
+}
+
+/* =========================
+   CARDS (OSCROP STYLE)
+========================= */
+.card {
+    position: relative;
+    padding: 14px;
+    margin-bottom: 14px;
+
+    background: rgba(5, 20, 30, 0.65);
+    border: 1px solid rgba(0,255,200,0.15);
+
+    backdrop-filter: blur(6px);
+}
+
+/* línia superior estil HUD */
+.card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: #00e0c6;
+}
+
+/* =========================
+   TIPUS EXERCICI
+========================= */
+.main {
+    border-color: rgba(0,255,200,0.4);
+}
+
+.variant {
+    border-color: rgba(0,150,255,0.3);
+}
+
+.assistance {
+    opacity: 0.85;
+}
+
+.core {
+    border-color: rgba(50,200,100,0.3);
+}
+
+/* =========================
+   TITOLS
+========================= */
+h2, h3 {
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #00e0c6;
+}
+
+h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-size: 16px;
+    margin: 0;
+}
+
+/* =========================
+   TEXT SECUNDARI
+========================= */
+.sub {
+    font-size: 12px;
+    color: rgba(200,255,255,0.5);
+    margin-top: 4px;
+}
+
+.work {
+    font-size: 13px;
+    color: rgba(200,255,255,0.5);
+}
+
+/* =========================
+   TOP SET
+========================= */
+.top-set {
+    font-size: 13px;
+    color: #00e0c6;
+    font-weight: 500;
+}
+
+/* =========================
+   INPUTS (FIX + STYLE)
+========================= */
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+
+    border-radius: 6px;
+    border: 1px solid rgba(0,255,200,0.2);
+
+    background: rgba(0, 10, 15, 0.8);
+    color: #00e0c6;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+/* =========================
+   SELECTORS
+========================= */
+select {
+    padding: 6px;
+    margin: 5px 0;
+
+    border-radius: 6px;
+    border: 1px solid rgba(0,255,200,0.2);
+
+    background: rgba(0, 10, 15, 0.8);
+    color: #00e0c6;
+}
+
+/* =========================
+   BOTONS
+========================= */
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+
+    background: rgba(0,255,200,0.08);
+    border: 1px solid rgba(0,255,200,0.3);
+
+    color: #00e0c6;
+    font-weight: 600;
+
+    border-radius: 6px;
+}
+
+/* click */
+button:active {
+    transform: scale(0.97);
+}
+
+/* =========================
+   NAVBAR (SPIDERMAN STYLE)
+========================= */
+/* =========================
+   NAVBAR (SPIDERMAN STYLE)
+========================= */
+.navbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 70px;
+
+    display: flex;
+
+    background: #bc2b3d;
+    border-top: 2px solid #322f33;
+
+    z-index: 100;
+}
+
+/* cada item = bloc */
+.nav-item {
+    flex: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+
+    color: rgba(50, 47, 51, 0.6);
+
+    position: relative;
+}
+
+/* separadors verticals */
+.nav-item:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 15%;
+    height: 70%;
+    width: 1px;
+    background: rgba(0,255,200,0.2);
+}
+
+/* estat actiu (IMPORTANT) */
+.nav-item.active {
+    background: #123544;
+    color: #00e0c6;
+}
+
+/* línia superior activa */
+.nav-item.active::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #00e0c6;
+}
+
+.nav-item:active {
+    background: #0f2a38;
+}
+
+/* =========================
+   WORKOUT MODE
+========================= */
+.workout-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.workout-card {
+    background: rgba(5, 20, 30, 0.75);
+    border: 1px solid rgba(0,255,200,0.2);
+    padding: 14px;
+    margin-bottom: 12px;
+}
+
+/* =========================
+   SETS VISUAL
+========================= */
+.sets {
+    margin: 10px 0;
+}
+
+.sets span {
+    font-size: 18px;
+    margin-right: 4px;
+    color: #033;
+}
+
+.sets .done {
+    color: #00e0c6;
+}
+
+/* animació */
+.done-anim {
+    animation: pop 0.25s ease;
+}
+
+@keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* =========================
+   TIMER
+========================= */
+#timer {
+    font-size: 24px;
+    font-weight: bold;
+    color: #00e0c6;
+}
+
+/* =========================
+   ESTIRAMENTS
+========================= */
+.stretch-block {
+    margin-top: 20px;
+}
+
+.stretch-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(0,255,200,0.1);
+}
+
+.stretch-item:last-child {
+    border-bottom: none;
+}
+
+.stretch-item strong {
+    color: #00e0c6;
+}
+
+/* =========================
+   MICRO INTERACCIÓ
+========================= */
+.card:active {
+    transform: scale(0.98);
+}
+
+/* =========================
+   PAGE TRANSITIONS
+========================= */
+.fade-out {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeIn 0.25s ease forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

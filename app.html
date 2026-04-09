@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="data.js"></script>
+<link rel="stylesheet" href="styles.css">
+<title>Power App</title>
+
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#00fff0">
+
+<!-- iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Power">
+
+<link rel="apple-touch-icon" href="icon-192.png">
+
+</head>
+
+<body>
+
+<div id="content"></div>
+
+<div class="navbar">
+    <div class="nav-item active" onclick="navigate(event, 'today')"><br>Avui</div>
+    <div class="nav-item" onclick="navigate(event, 'routine')"><br>Rutina</div>
+    <div class="nav-item" onclick="navigate(event, 'stretch')"><br>Stretch</div>
+    <div class="nav-item" onclick="navigate(event, 'progress')"><br>Progrés</div>
+    <div class="nav-item" onclick="navigate(event, 'graphs')"><br>Gràfiques</div>
+    <div class="nav-item" onclick="navigate(event, 'profile')"><br>Perfil</div>
+</div>
+
+<script>
+
+let selectedExercise = "Bench Press";
+
+let restInterval = null;
+let restTime = 0;
+
+function getCurrentWeek() {
+    const start = new Date("2026-04-06"); // setmana 26 inici
+    const now = new Date();
+
+    const diff = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+    const week = 26 + Math.floor(diff / 7);
+
+    return Math.min(Math.max(week, 26), 37);
+}
+
+function getCurrentDay() {
+    const day = new Date().getDay();
+
+    const map = {
+        1: "Upper 1", // dilluns
+        2: "Lower 1",
+        3: "Cardio",
+        4: "Upper 2",
+        5: "Lower 2"
+    };
+
+    return map[day] || "Rest";
+}
+
+let selectedWeek = getCurrentWeek();
+let selectedDay = getCurrentDay();
+
+function renderStretch(name, detail, note) {
+    return `
+        <div style="margin-bottom:10px;">
+            <strong>${name}</strong><br>
+            <small>${detail}</small><br>
+            <span style="color:#aaa; font-size:12px;">${note}</span>
+        </div>
+    `;
+}
+
+function renderDay(title, items) {
+    return `
+        <div class="card">
+            <h3>${title}</h3>
+            ${items.map(i => `
+                <div style="margin-bottom:8px;">
+                    <strong>${i[0]}</strong><br>
+                    <span style="color:#aaa; font-size:13px;">${i[1]}</span>
+                </div>
+            `).join("")}
+        </div>
+    `;
+}
+
+function saveReal(i, value, name) {
+    const key = `log_${selectedWeek}_${selectedDay}`;
+    const data = JSON.parse(localStorage.getItem(key)) || {};
+
+    data[i] = {
+        name: name,
+        weight: parseFloat(value) || 0,
+        reps: null,
+        sets: null,
+        timestamp: new Date().toISOString()
+    };
+
+    localStorage.setItem(key, JSON.stringify(data));
+}
+
+function changeWeek(w) {
+    selectedWeek = parseInt(w);
+    render();
+}
+
+function changeDay(d) {
+    selectedDay = d;
+    render();
+}
+
+function getExerciseHistory(exerciseName) {
+
+    const history = [];
+
+    Object.keys(localStorage).forEach(key => {
+
+        if (!key.startsWith("log_")) return;
+
+        const data = JSON.parse(localStorage.getItem(key));
+
+        Object.values(data).forEach(entry => {
+
+            if (entry.name === exerciseName && entry.weight > 0) {
+
+                const parts = key.split("_");
+                const week = parts[1];
+                const day = parts[2];
+
+                history.push({
+                    week: parseInt(week),
+                    day: day,
+                    weight: entry.weight,
+                    date: entry.timestamp
+                });
+            }
+        });
+    });
+
+    // ordenar per setmana
+    history.sort((a, b) => a.week - b.week);
+
+    return history;
+}
+
+function showHistory(exerciseName) {
+
+    const history = getComparison(exerciseName);
+    const content = document.getElementById("content");
+
+    content.innerHTML = `
+        <h2>${exerciseName}</h2>
+        <canvas id="historyChart"></canvas>
+
+        <div class="card">
+            ${history.map(h => `
+                <p>
+                    Setmana ${h.week} → 
+                    Plan: ${h.planned ?? "-"} kg | 
+                    Real: <strong>${h.real ?? "-"}</strong>
+                </p>
+            `).join("")}
+        </div>
+    `;
+
+    setTimeout(() => {
+
+        // netejar canvas (important)
+        ["chartTop", "chartRM", "chartVolume"].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.getContext("2d").clearRect(0,0,9999,9999);
+            }
+        });
+        document.getElementById("chartRM").getContext("2d").clearRect(0,0,9999,9999);
+        document.getElementById("chartVolume").getContext("2d").clearRect(0,0,9999,9999);
+
+        new Chart(document.getElementById("historyChart"), {
+            type: "line",
+            data: {
+                labels: history.map(h => `S${h.week}`),
+                datasets: [
+                    {
+                        label: "Planificat",
+                        data: history.map(h => h.planned)
+                    },
+                    {
+                        label: "Real",
+                        data: history.map(h => h.real)
+                    }
+                ]
+            }
+        });
+
+    }, 100);
+}
+
+function getComparison(exerciseName) {
+
+    const result = [];
+
+    Object.keys(progression["Upper 1"]).forEach(week => {
+
+        const weekData = progression["Upper 1"][week]?.exercises?.[exerciseName];
+
+        if (!weekData) return;
+
+        // extreure pes planificat (del "work" o "top")
+        let planned = null;
+
+        const source = weekData.top || weekData.work;
+
+        if (source) {
+            const match = source.match(/\d+(\.\d+)?/);
+            planned = match ? parseFloat(match[0]) : null;
+        }
+
+        // buscar real
+        const logKeyPrefix = `log_${week}_`;
+
+        let real = null;
+
+        Object.keys(localStorage).forEach(key => {
+
+            if (!key.startsWith(logKeyPrefix)) return;
+
+            const data = JSON.parse(localStorage.getItem(key));
+
+            Object.values(data).forEach(entry => {
+                if (entry.name === exerciseName && entry.weight > 0) {
+                    real = entry.weight;
+                }
+            });
+        });
+
+        result.push({
+            week: parseInt(week),
+            planned,
+            real
+        });
+    });
+
+    return result.sort((a, b) => a.week - b.week);
+}
+
+function extractWeight(text) {
+    if (!text) return null;
+    const match = text.match(/\d+(\.\d+)?/);
+    return match ? parseFloat(match[0]) : null;
+}
+
+function extractSetsReps(text) {
+    if (!text) return { sets: 0, reps: 0 };
+
+    const match = text.match(/(\d+)x(\d+)/);
+    if (!match) return { sets: 0, reps: 0 };
+
+    return {
+        sets: parseInt(match[1]),
+        reps: parseInt(match[2])
+    };
+}
+
+function calculateWeeklyVolume(week) {
+
+    let total = 0;
+
+    const days = ["Upper 1", "Lower 1", "Upper 2", "Lower 2"];
+
+    days.forEach(day => {
+
+        const exercises = progression[day]?.[week]?.exercises;
+        if (!exercises) return;
+
+        const saved = JSON.parse(localStorage.getItem(`log_${week}_${day}`)) || {};
+
+        Object.entries(exercises).forEach(([name, ex], i) => {
+
+            // PRIORITAT → REAL
+            let weight = saved[i]?.weight;
+
+            // si no hi ha real → planned
+            if (!weight || weight === 0) {
+                weight = extractWeight(ex.work || ex.top);
+            }
+
+            const { sets, reps } = extractSetsReps(ex.work);
+
+            if (weight && sets && reps) {
+                total += weight * sets * reps;
+            }
+        });
+    });
+
+    return Math.round(total);
+}
+
+function getExerciseClass(name) {
+
+    const main = ["Bench Press", "Back Squat", "Deadlift"];
+    const variant = ["Paused Bench", "Paused Squat", "Paused Deadlift", "Close Grip Bench"];
+    const core = ["Ab Wheel", "Weighted Plank", "Hanging Leg Raises"];
+
+    if (main.includes(name)) return "main";
+    if (variant.includes(name)) return "variant";
+    if (core.includes(name)) return "core";
+
+    return "assistance";
+}
+
+function changeExercise(ex) {
+    selectedExercise = ex;
+    render();
+}
+
+function estimateRM(weight, reps) {
+    return weight * (1 + reps / 30);
+}
+
+function startWorkout() {
+    currentPage = "workout";
+    render();
+}
+
+function startRestTimer(seconds) {
+
+    let remaining = seconds;
+
+    if (restInterval) clearInterval(restInterval);
+
+    restInterval = setInterval(() => {
+
+        remaining--;
+
+        const min = Math.floor(remaining / 60);
+        const sec = remaining % 60;
+
+        const el = document.getElementById("timer");
+
+        if (el) {
+            el.innerText = `⏱ ${min}:${sec.toString().padStart(2, '0')}`;
+        }
+
+        if (remaining <= 0) {
+            clearInterval(restInterval);
+
+            if (el) {
+                el.innerText = "🔥 GO!";
+            }
+        }
+
+    }, 1000);
+}
+
+function exitWorkout() {
+    if (restInterval) clearInterval(restInterval);
+    currentPage = "today";
+    render();
+}
+
+function completeSet(index) {
+
+    const key = `sets_${selectedWeek}_${selectedDay}`;
+    const data = JSON.parse(localStorage.getItem(key)) || {};
+
+    if (!data[index]) data[index] = 0;
+
+    data[index] += 1;
+
+    localStorage.setItem(key, JSON.stringify(data));
+
+    playClick();
+
+    if (navigator.vibrate) {
+        navigator.vibrate(50);
+    }
+
+    startRestTimer(180);
+
+    render();
+}
+
+function getStretchingByDay(day) {
+
+    if (day.includes("Upper")) {
+        return [
+            ["Scapular CARs", "2 x 8"],
+            ["Shoulder CARs", "2 x 6"],
+            ["Wall Angels", "2 x 10"],
+            ["Band external rotations", "2 x 12"],
+            ["Dead hang", "2 x 30\""]
+        ];
+    }
+
+    if (day.includes("Lower")) {
+        return [
+            ["Hip CARs", "2 x 6"],
+            ["Cossack squats", "2 x 8"],
+            ["Jefferson curls", "2 x 8"],
+            ["Couch stretch", "2 x 30\""],
+            ["Deep squat hold", "2 x 45\""]
+        ];
+    }
+
+    if (day === "Cardio") {
+        return [
+            ["Cames amunt", "5 min"],
+            ["Figure-4 stretch", "2 x 30\""],
+            ["Cat-cow", "2 x 10"],
+            ["Child’s pose", "2 x 45\""]
+        ];
+    }
+
+    return [];
+}
+
+function saveProfile() {
+    const profile = {
+        name: document.getElementById("name").value,
+        bench: parseFloat(document.getElementById("benchRM").value) || 0,
+        squat: parseFloat(document.getElementById("squatRM").value) || 0,
+        deadlift: parseFloat(document.getElementById("deadRM").value) || 0
+    };
+
+    localStorage.setItem("profile", JSON.stringify(profile));
+    render();
+}
+
+function getProfile() {
+    return JSON.parse(localStorage.getItem("profile")) || {};
+}
+
+function getBestRM(exercise) {
+
+    const history = getExerciseHistory(exercise);
+
+    if (history.length === 0) return 0;
+
+    let best = 0;
+
+    history.forEach(h => {
+        const est = estimateRM(h.weight, 1);
+        if (est > best) best = est;
+    });
+
+    return Math.round(best);
+}
+
+function getProgress(exercise) {
+
+    const history = getExerciseHistory(exercise);
+
+    if (history.length < 2) return 0;
+
+    const first = history[0].weight;
+    const last = history[history.length - 1].weight;
+
+    return Math.round(((last - first) / first) * 100);
+}
+
+function playClick() {
+    const audio = new Audio("https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3");
+    audio.volume = 0.2;
+    audio.play();
+}
+
+// =======================
+// ESTAT
+// =======================
+
+let currentPage = "today";
+
+// DADES MOCK (després ho connectem amb el teu Excel real)
+const workout = [
+    { name: "Bench Press", planned: 110, actual: null },
+    { name: "Paused Bench", planned: 100, actual: null }
+];
+
+// =======================
+// NAVEGACIÓ
+// =======================
+
+function navigate(e, page) {
+
+    const content = document.getElementById("content");
+
+    if (!content) {
+        // fallback segur
+        currentPage = page;
+        render();
+        return;
+    }
+
+    content.classList.add("fade-out");
+
+    setTimeout(() => {
+
+        currentPage = page;
+
+        document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
+        
+        if (e && e.currentTarget) {
+            e.currentTarget.classList.add("active");
+        }
+
+        render();
+
+        content.classList.remove("fade-out");
+        content.classList.add("fade-in");
+
+        setTimeout(() => {
+            content.classList.remove("fade-in");
+        }, 250);
+
+    }, 150);
+}
+
+// =======================
+// RENDER
+// =======================
+
+function render() {
+    const content = document.getElementById("content");
+
+    if (currentPage === "profile") {
+
+        const profile = getProfile();
+
+        content.innerHTML = `
+            <h2>Perfil</h2>
+
+            <div class="card">
+                <h3>Perfil</h3>
+
+                <input id="name" placeholder="Nom" value="${profile.name || ""}">
+
+                <input id="benchRM" type="number" placeholder="Bench RM" value="${profile.bench || ""}">
+                <input id="squatRM" type="number" placeholder="Squat RM" value="${profile.squat || ""}">
+                <input id="deadRM" type="number" placeholder="Deadlift RM" value="${profile.deadlift || ""}">
+
+                <button onclick="saveProfile()">Guardar</button>
+            </div>
+
+            <div class="card">
+                <h3>RM Virtual</h3>
+
+                <p>Bench: <strong>${getBestRM("Bench Press")} kg</strong></p>
+                <p>Squat: <strong>${getBestRM("Back Squat")} kg</strong></p>
+                <p>Deadlift: <strong>${getBestRM("Deadlift")} kg</strong></p>
+            </div>
+
+            <div class="card">
+                <h3>Progressió</h3>
+
+                <p>Bench: ${getProgress("Bench Press")}%</p>
+                <p>Squat: ${getProgress("Back Squat")}%</p>
+                <p>Deadlift: ${getProgress("Deadlift")}%</p>
+            </div>
+        `;
+    }
+
+    if (currentPage === "workout") {
+
+        const week = selectedWeek;
+        const day = selectedDay;
+
+        const workoutData = progression[day]?.[week]?.exercises || {};
+        const setsDone = JSON.parse(localStorage.getItem(`sets_${week}_${day}`)) || {};
+
+        const workout = Object.keys(workoutData).map(name => ({
+            name: name,
+            ...workoutData[name]
+        }));
+
+        content.innerHTML = `
+            <div class="workout-header">
+                <h1>${day}</h1>
+                <div id="timer">⏱ Ready</div>
+            </div>
+
+            ${workout.map((ex, i) => {
+
+                const done = setsDone[i] || 0;
+
+                return `
+                    <div class="workout-card ${getExerciseClass(ex.name)}">
+
+                        <h2>${ex.name}</h2>
+
+                        ${ex.top ? `<div class="top-set">${ex.top}</div>` : ""}
+                        ${ex.work ? `<div class="work">${ex.work}</div>` : ""}
+
+                        <div class="sets">
+                            ${Array.from({length: 5}).map((_, s) => `
+                                <span class="${done > s ? 'done done-anim' : ''}">●</span>
+                            `).join("")}
+                        </div>
+
+                        <button onclick="completeSet(${i})">
+                            ✅ Sèrie feta
+                        </button>
+
+                    </div>
+                `;
+            }).join("")}
+
+            <button onclick="exitWorkout()">← Sortir</button>
+        `;
+    }
+
+    if (currentPage === "today") {
+
+        const week = selectedWeek;
+        const day = selectedDay;
+        const stretches = getStretchingByDay(day);
+
+        if (!progression[day] || !progression[day][week]) {
+            content.innerHTML = `
+                <h2>Descans</h2>
+                <p>Avui no toca entrenar</p>
+            `;
+            return;
+        }
+
+        const workoutData = progression[day]?.[week]?.exercises || {};
+        const workout = Object.keys(workoutData).map(name => ({
+            name: name,
+            ...workoutData[name]
+        }));
+        const saved = JSON.parse(localStorage.getItem(`log_${week}_${day}`)) || {};
+
+        content.innerHTML = `
+            <h2>${day}</h2>
+
+            <button onclick="startWorkout()" class="btn-start">
+                Mode entrenament
+            </button>
+
+            <div class="card">
+                <label>Setmana:</label>
+                <select onchange="changeWeek(this.value)">
+                    ${Object.keys(progression["Upper 1"]).map(w => `
+                        <option value="${w}" ${w == week ? "selected" : ""}>
+                            ${w}
+                        </option>
+                    `).join("")}
+                </select>
+
+                <label>Dia:</label>
+                <select onchange="changeDay(this.value)">
+                    ${["Upper 1","Lower 1","Rest","Upper 2","Lower 2"].map(d => `
+                        <option value="${d}" ${d == day ? "selected" : ""}>
+                            ${d}
+                        </option>
+                    `).join("")}
+                </select>
+            </div>
+
+            ${workout.map((ex, i) => {
+                const value = saved[i]?.weight || "";
+
+                return `
+                    <div class="card ${getExerciseClass(ex.name)}">
+                        <h3>${ex.name}</h3>
+                        <div class="sub">${ex.component || ""}</div>
+
+                        ${ex.top ? `<div class="top-set">${ex.top}</div>` : ""}
+                        ${ex.work ? `<div class="work">${ex.work}</div>` : ""}
+
+                        <input 
+                            type="number" 
+                            step="0.5"
+                            placeholder="Pes"
+                            value="${value}"
+                            oninput="saveReal(${i}, this.value, '${ex.name}')"
+                        >
+                    </div>
+                `;
+            }).join("")}
+
+            <div class="card stretch-block">
+                <h3>Estiraments</h3>
+
+                ${stretches.map(s => `
+                    <div class="stretch-item">
+                        <strong>${s[0]}</strong>
+                        <span>${s[1]}</span>
+                    </div>
+                `).join("")}
+            </div>
+        `;
+    }
+
+    if (currentPage === "routine") {
+        content.innerHTML = `
+            <h2>Rutina</h2>
+
+            ${renderDay("Dilluns (Upper 1)", [
+                ["Escalfament", "Rem 5 min + bandes"],
+                ["Activació", "Band external rotations / pull-aparts (2–3 x 15)"],
+                ["Força", "Bench Press (Top set + 4 x 4 @77–82%)"],
+                ["Variant", "Paused Bench (3 x 4 @70–72%)"],
+                ["Assistència", "Weighted Pull-Ups (4 x 6)"],
+                ["Assistència", "Barbell Row (4 x 8)"],
+                ["Assistència", "Triceps Pushdown (3 x 10–12)"],
+                ["Core", "Hanging Leg Raises (3 x 15)"],
+                ["Mobilitat", "Estiraments"]
+            ])}
+
+            ${renderDay("Dimarts (Lower 1)", [
+                ["Escalfament", "Bike/Rem + mobilitat maluc"],
+                ["Activació", "Glute bridge / Dead bug (2–3 x 10–12)"],
+                ["Força", "Back Squat (Top set + 4 x 4 @75–80%)"],
+                ["Variant", "Paused Squat (3 x 4 @70–72%)"],
+                ["Assistència", "RDL (3 x 6–8)"],
+                ["Assistència", "Bulgarian Split Squat (3 x 8)"],
+                ["Core", "Weighted Plank"],
+                ["Mobilitat", "Estiraments"]
+            ])}
+
+            ${renderDay("Dimecres (Cardio + Mobilitat)", [
+                ["Mobilitat", "Hip circles + Cat-Cow"],
+                ["Cardio", "Incline walking 30 min"],
+                ["Rebuild", "Spanish squat + Reverse Nordics"],
+                ["Rebuild", "Calf raise + Tibialis"],
+                ["Rebuild", "Back extension + Reverse plank"],
+                ["Rebuild", "Rotator cuff + Dead hang"],
+                ["Rebuild", "Farmer carry"],
+                ["Mobilitat", "Routine final"]
+            ])}
+
+            ${renderDay("Dijous (Upper 2)", [
+                ["Escalfament", "Rem + bandes"],
+                ["Activació", "Pull-aparts / Scap pushups"],
+                ["Força", "Bench Press (4 x 6 @72–75%)"],
+                ["Variant", "Close Grip Bench"],
+                ["Assistència", "Overhead Press"],
+                ["Assistència", "Chest Supported Row"],
+                ["Assistència", "Face Pull"],
+                ["Assistència", "Lateral Raises"],
+                ["Mobilitat", "Estiraments"]
+            ])}
+
+            ${renderDay("Divendres (Lower 2)", [
+                ["Escalfament", "Bike + mobilitat"],
+                ["Activació", "Glute bridges / Bird dogs"],
+                ["Força", "Deadlift (Top set + 3 x 3 @80–85%)"],
+                ["Variant", "Paused Deadlift"],
+                ["Assistència", "Zercher Squat"],
+                ["Assistència", "Back Extensions"],
+                ["Core", "Ab Wheel"],
+                ["Mobilitat", "Estiraments"]
+            ])}
+        `;
+    }
+
+    if (currentPage === "stretch") {
+        content.innerHTML = `
+            <h2>Estiraments</h2>
+
+            <div class="card">
+                <h3>Torso (Upper days)</h3>
+
+                ${renderStretch("Scapular CARs", "2 x 8 rotations", "Mou només l’escàpula")}
+                ${renderStretch("Shoulder CARs", "2 x 6 rotations", "Moviment lent")}
+                ${renderStretch("Wall Angels", "2 x 10", "Esquena i canells a la paret")}
+                ${renderStretch("Banded external rotations", "2 x 12", "Colze enganxat")}
+                ${renderStretch("Open book stretch", "2 x 20–30\"", "Respira mentre rotes")}
+                ${renderStretch("Dead hang", "2 x 20–30\"", "Relaxar espatlla")}
+            </div>
+
+            <div class="card">
+                <h3>Cames (Lower days)</h3>
+
+                ${renderStretch("Hip CARs", "2 x 6 rotations", "Sense moure pelvis")}
+                ${renderStretch("Figure-4 stretch", "2 x 30\"/costat", "Gluti profund")}
+                ${renderStretch("Cossack squats", "2 x 6–8", "Pit alt")}
+                ${renderStretch("Jefferson curls", "2 x 8", "Vèrtebra a vèrtebra")}
+                ${renderStretch("Couch stretch", "2 x 30\"/costat", "Glutis activats")}
+                ${renderStretch("Deep squat hold", "2 x 30–45\"", "Respira profund")}
+            </div>
+
+            <div class="card">
+                <h3>Post Cardio</h3>
+
+                ${renderStretch("Cames amunt", "1 x 5 min", "Respira pel nas")}
+                ${renderStretch("Hip flexor stretch", "2 x 30\"/costat", "Pelvis en retroversió")}
+                ${renderStretch("Figure-4 stretch", "2 x 30\"/costat", "Relaxa gluti")}
+                ${renderStretch("Cat-cow", "2 x 8–10", "Moviment fluid")}
+                ${renderStretch("Open book stretch", "2 x 20–30\"", "Respiració")}
+                ${renderStretch("Child’s pose", "2 x 30–45\"", "Relax lumbar")}
+            </div>
+        `;
+    }
+
+    if (currentPage === "progress") {
+
+        const week = selectedWeek;
+        const day = selectedDay;
+
+        const plannedData = progression[day]?.[week]?.exercises || {};
+        const planned = Object.keys(plannedData).map(name => ({
+            name: name,
+            ...plannedData[name]
+        }));
+        const saved = JSON.parse(localStorage.getItem(`log_${week}_${day}`)) || {};
+
+        content.innerHTML = `
+            <h2>Progressió</h2>
+            <p>Setmana ${week}</p>
+            <p style="color:#aaa;">${progression[day]?.[week]?.phase || ""}</p>
+
+            ${planned.map((ex, i) => {
+                const real = saved[i]?.weight || "";
+                const done = saved[i]?.weight ? "#4CAF50" : "#aaa";
+
+                return `
+                    <div class="card">
+                        <h3 style="color:${done}" onclick="showHistory('${ex.name}')">${ex.name}</h3>
+                        ${ex.top ? `<p>Top: ${ex.top}</p>` : ""}
+                        <p>Planificat: ${ex.work}</p>
+                        <p style="color:#4CAF50;">Real: ${real}</p>
+                    </div>
+                `;
+            }).join("")}
+        `;
+    }
+
+    if (currentPage === "graphs") {
+
+        const weeks = Object.keys(progression["Upper 1"]).sort((a,b)=>a-b);
+
+        // TOP SET
+        const topSetData = weeks.map(w => {
+
+            const ex =
+                progression["Upper 1"]?.[w]?.exercises[selectedExercise] ||
+                progression["Lower 1"]?.[w]?.exercises[selectedExercise] ||
+                progression["Lower 2"]?.[w]?.exercises[selectedExercise];
+
+            const source = ex?.top || ex?.work;
+
+            if (!source) return null;
+
+            const match = source.match(/\d+(\.\d+)?/);
+            return match ? parseFloat(match[0]) : null;
+        });
+
+        // RM
+        const rmData = weeks.map(w => {
+
+            const ex =
+                progression["Upper 1"]?.[w]?.exercises[selectedExercise] ||
+                progression["Lower 1"]?.[w]?.exercises[selectedExercise] ||
+                progression["Lower 2"]?.[w]?.exercises[selectedExercise];
+
+            if (!ex) return null;
+
+            const weight = extractWeight(ex.top || ex.work);
+            const repsMatch = (ex.top || ex.work)?.match(/x(\d+)/);
+            const reps = repsMatch ? parseInt(repsMatch[1]) : 1;
+
+            return weight ? Math.round(estimateRM(weight, reps)) : null;
+        });
+
+        // VOLUM
+        const volumeData = weeks.map(w => calculateWeeklyVolume(w));
+
+        // HTML
+        content.innerHTML = `
+            <h2>Gràfiques</h2>
+
+            <div class="card">
+                <label>Exercici:</label>
+                <select onchange="changeExercise(this.value)">
+                    ${["Bench Press","Back Squat","Deadlift"].map(ex => `
+                        <option value="${ex}" ${ex == selectedExercise ? "selected" : ""}>
+                            ${ex}
+                        </option>
+                    `).join("")}
+                </select>
+            </div>
+
+            <canvas id="chartTop"></canvas>
+            <canvas id="chartRM"></canvas>
+            <canvas id="chartVolume"></canvas>
+        `;
+
+        setTimeout(() => {
+
+            new Chart(document.getElementById("chartTop"), {
+                type: "line",
+                data: {
+                    labels: weeks.map(w => `S${w}`),
+                    datasets: [{
+                        label: "Top Set",
+                        data: topSetData
+                    }]
+                }
+            });
+
+            new Chart(document.getElementById("chartRM"), {
+                type: "line",
+                data: {
+                    labels: weeks.map(w => `S${w}`),
+                    datasets: [{
+                        label: "RM estimat",
+                        data: rmData
+                    }]
+                }
+            });
+
+            new Chart(document.getElementById("chartVolume"), {
+                type: "line",
+                data: {
+                    labels: weeks.map(w => `S${w}`),
+                    datasets: [{
+                        label: "Volum",
+                        data: volumeData
+                    }]
+                }
+            });
+
+        }, 100);
+    }
+}
+
+// =======================
+// SAVE
+// =======================
+
+function save(i, value) {
+    workout[i].actual = value;
+    render();
+}
+
+// INIT
+render();
+
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js")
+        .then(() => console.log("SW registered"))
+        .catch(err => console.log("SW error", err));
+}
+
+</script>
+
+</body>
+</html>
