@@ -26,12 +26,12 @@
 <div id="content"></div>
 
 <div class="navbar">
-    <div class="nav-item active" onclick="navigate(event, 'today')"><br>Avui</div>
-    <div class="nav-item" onclick="navigate(event, 'routine')"><br>Rutina</div>
-    <div class="nav-item" onclick="navigate(event, 'stretch')"><br>Stretch</div>
-    <div class="nav-item" onclick="navigate(event, 'progress')"><br>Progrés</div>
-    <div class="nav-item" onclick="navigate(event, 'graphs')"><br>Gràfiques</div>
-    <div class="nav-item" onclick="navigate(event, 'profile')"><br>Perfil</div>
+    <div class="nav-item active" data-page="today" onclick="navigate('today')">Avui</div>
+    <div class="nav-item" data-page="routine" onclick="navigate('routine')">Rutina</div>
+    <div class="nav-item" data-page="stretch" onclick="navigate('stretch')">Stretch</div>
+    <div class="nav-item" data-page="progress" onclick="navigate('progress')">Progrés</div>
+    <div class="nav-item" data-page="graphs" onclick="navigate('graphs')">Gràfiques</div>
+    <div class="nav-item" data-page="profile" onclick="navigate('profile')">Perfil</div>
 </div>
 
 <script>
@@ -412,10 +412,11 @@ function getStretchingByDay(day) {
 
     if (day === "Cardio") {
         return [
-            ["Cames amunt", "5 min"],
-            ["Figure-4 stretch", "2 x 30\""],
-            ["Cat-cow", "2 x 10"],
-            ["Child’s pose", "2 x 45\""]
+            ["Hip CARs", "2 x 6"],
+            ["Cossack squats", "2 x 8"],
+            ["Jefferson curls", "2 x 8"],
+            ["Couch stretch", "2 x 30\""],
+            ["Deep squat hold", "2 x 45\""]
         ];
     }
 
@@ -488,16 +489,11 @@ const workout = [
 // NAVEGACIÓ
 // =======================
 
-function navigate(e, page) {
+let lastFocus = null;
+
+function navigate(page) {
 
     const content = document.getElementById("content");
-
-    if (!content) {
-        // fallback segur
-        currentPage = page;
-        render();
-        return;
-    }
 
     content.classList.add("fade-out");
 
@@ -505,13 +501,8 @@ function navigate(e, page) {
 
         currentPage = page;
 
-        document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
-        
-        if (e && e.currentTarget) {
-            e.currentTarget.classList.add("active");
-        }
-
         render();
+        updateNavbar();
 
         content.classList.remove("fade-out");
         content.classList.add("fade-in");
@@ -521,6 +512,33 @@ function navigate(e, page) {
         }, 250);
 
     }, 150);
+}
+
+function updateNavbar() {
+    document.querySelectorAll(".nav-item").forEach(el => {
+        const page = el.getAttribute("data-page");
+
+        if (page === currentPage) {
+            el.classList.add("active");
+        } else {
+            el.classList.remove("active");
+        }
+    });
+}
+
+function restoreFocus() {
+
+    if (!lastFocus) return;
+
+    const input = document.getElementById(lastFocus.id);
+
+    if (input) {
+        input.focus();
+        input.value = lastFocus.value;
+
+        // posar cursor al final (UX pro)
+        input.setSelectionRange(input.value.length, input.value.length);
+    }
 }
 
 // =======================
@@ -622,19 +640,28 @@ function render() {
         const day = selectedDay;
         const stretches = getStretchingByDay(day);
 
-        if (!progression[day] || !progression[day][week]) {
+        if (day !== "Cardio" && (!progression[day] || !progression[day][week])) {
+
             content.innerHTML = `
-                <h2>Descans</h2>
-                <p>Avui no toca entrenar</p>
+                <h2>Sense dades</h2>
+                <p>No hi ha entrenament definit</p>
             `;
             return;
         }
 
-        const workoutData = progression[day]?.[week]?.exercises || {};
-        const workout = Object.keys(workoutData).map(name => ({
-            name: name,
-            ...workoutData[name]
-        }));
+        let workout = [];
+        let isCardio = false;
+
+        if (day === "Cardio") {
+            isCardio = true;
+        } else {
+            const workoutData = progression[day]?.[week]?.exercises || {};
+            workout = Object.keys(workoutData).map(name => ({
+                name: name,
+                ...workoutData[name]
+            }));
+        }
+
         const saved = JSON.parse(localStorage.getItem(`log_${week}_${day}`)) || {};
 
         content.innerHTML = `
@@ -656,13 +683,81 @@ function render() {
 
                 <label>Dia:</label>
                 <select onchange="changeDay(this.value)">
-                    ${["Upper 1","Lower 1","Rest","Upper 2","Lower 2"].map(d => `
+                    ${["Upper 1","Lower 1","Cardio","Upper 2","Lower 2"].map(d => `
                         <option value="${d}" ${d == day ? "selected" : ""}>
                             ${d}
                         </option>
                     `).join("")}
                 </select>
             </div>
+
+            ${isCardio ? `
+
+                <div class="card">
+                    <h3>Mobilitat inicial</h3>
+                    <p>Hip circles + Cat-Cow + Arm circles</p>
+                    <p class="sub">5 min · suau</p>
+                </div>
+
+                <div class="card">
+                    <h3>Cardio</h3>
+                    <p>Incline Walking</p>
+                    <p class="sub">30 min · inclinació 6–8 · velocitat 5.5–6 km/h</p>
+                </div>
+
+                <div class="card">
+                    <h3>Rebuild – Bloc 1</h3>
+                    <p>Spanish Squat Hold: 3 x 30–45"</p>
+                    <p>Reverse Nordics: 3 x 6–8</p>
+                </div>
+
+                <div class="card">
+                    <h3>Rebuild – Bloc 2</h3>
+                    <p>Single-leg calf raise (lent): 3 x 10</p>
+                    <p>Tibialis wall raises: 3 x 15–20</p>
+                </div>
+
+                <div class="card">
+                    <h3>Rebuild – Bloc 3</h3>
+                    <p>Back Extension ISO hold: 3 x 20–30"</p>
+                    <p>Chinese reverse plank: 3 x 30–45"</p>
+                </div>
+
+                <div class="card">
+                    <h3>Rebuild – Bloc 4</h3>
+                    <p>Rotator cuff exercise: 3 x 10</p>
+                    <p>Dead hang actiu: 3 x 20–30"</p>
+                </div>
+
+                <div class="card">
+                    <h3>Rebuild – Bloc 5</h3>
+                    <p>Farmer's carry: 3 x 30–40 m</p>
+                </div>
+
+            ` : workout.map((ex, i) => {
+
+                const value = saved[i]?.weight || "";
+
+                return `
+                    <div class="card ${getExerciseClass(ex.name)}">
+                        <h3>${ex.name}</h3>
+                        <div class="sub">${ex.component || ""}</div>
+
+                        ${ex.top ? `<div class="top-set">${ex.top}</div>` : ""}
+                        ${ex.work ? `<div class="work">${ex.work}</div>` : ""}
+
+                        <input 
+                            id="input_${i}"
+                            type="number" 
+                            step="0.5"
+                            placeholder="Pes"
+                            value="${value}"
+                            oninput="saveReal(${i}, this.value, '${ex.name}')"
+                        >
+                    </div>
+                `;
+
+            }).join("")}
 
             ${workout.map((ex, i) => {
                 const value = saved[i]?.weight || "";
@@ -676,6 +771,7 @@ function render() {
                         ${ex.work ? `<div class="work">${ex.work}</div>` : ""}
 
                         <input 
+                            id="input_${i}"
                             type="number" 
                             step="0.5"
                             placeholder="Pes"
@@ -686,6 +782,7 @@ function render() {
                 `;
             }).join("")}
 
+            
             <div class="card stretch-block">
                 <h3>Estiraments</h3>
 
