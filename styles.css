@@ -363,3 +363,19 @@ button:active {
     background: rgba(0,255,200,0.08);
     box-shadow: 0 0 12px rgba(0,255,200,0.2);
 }
+
+html {
+    background: radial-gradient(circle at top, #061018, #02060a);
+}
+
+html, body {
+    overflow-x: hidden;
+}
+
+body {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    background: radial-gradient(circle at top, #061018, #02060a);
+}
