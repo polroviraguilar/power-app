@@ -1,10 +1,10 @@
-const CACHE_NAME = "power-app-v1";
+const CACHE_NAME = "power-app-v2";
 
 const urlsToCache = [
-  "/",
-  "/index.html",
-  "/styles.css",
-  "/data.js"
+  "./",
+  "./index.html",
+  "./styles.css",
+  "./data.js"
 ];
 
 self.addEventListener("install", event => {
