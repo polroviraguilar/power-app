@@ -758,30 +758,6 @@ function render() {
                 `;
 
             }).join("")}
-
-            ${workout.map((ex, i) => {
-                const value = saved[i]?.weight || "";
-
-                return `
-                    <div class="card ${getExerciseClass(ex.name)}">
-                        <h3>${ex.name}</h3>
-                        <div class="sub">${ex.component || ""}</div>
-
-                        ${ex.top ? `<div class="top-set">${ex.top}</div>` : ""}
-                        ${ex.work ? `<div class="work">${ex.work}</div>` : ""}
-
-                        <input 
-                            id="input_${i}"
-                            type="number" 
-                            step="0.5"
-                            placeholder="Pes"
-                            value="${value}"
-                            oninput="saveReal(${i}, this.value, '${ex.name}')"
-                        >
-                    </div>
-                `;
-            }).join("")}
-
             
             <div class="card stretch-block">
                 <h3>Estiraments</h3>
