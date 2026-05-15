@@ -1,4 +1,4 @@
-const progression = {
+const progression = { 
 
   "Upper 1": {
 
