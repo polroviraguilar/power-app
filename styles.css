@@ -1,390 +1,837 @@
-/* =========================
-   RESET + BASE
-========================= */
+/* =========================================================
+   POWER APP · WEEKSTACK DIRECTION
+   Canvia el pantone aquí. La resta del CSS usa variables.
+========================================================= */
+:root {
+    --color-bg: #d8d8d6;
+    --color-bg-soft: #e4e3e0;
+    --color-surface: #f0efec;
+    --color-surface-2: #cfcfcd;
+    --color-surface-3: #bdbdbb;
+    --color-text: #3d3d40;
+    --color-text-soft: #626266;
+    --color-muted: #9b9b9b;
+    --color-line: rgba(61, 61, 64, 0.12);
+    --color-accent: #f05a1a;
+    --color-accent-soft: rgba(240, 90, 26, 0.13);
+    --color-danger: #8d2d21;
+
+    --font-main: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+    --radius-xl: 36px;
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 10px;
+    --shadow-soft: 0 28px 80px rgba(0, 0, 0, 0.16);
+    --shadow-tap: 0 14px 34px rgba(0, 0, 0, 0.10);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+body.theme-dark {
+    --color-bg: #343433;
+    --color-bg-soft: #3f3f3d;
+    --color-surface: #4b4b49;
+    --color-surface-2: #3c3c3a;
+    --color-surface-3: #30302f;
+    --color-text: #ededed;
+    --color-text-soft: #c7c7c7;
+    --color-muted: #969696;
+    --color-line: rgba(255, 255, 255, 0.12);
+    --color-accent: #ff6a24;
+    --color-accent-soft: rgba(255, 106, 36, 0.17);
+    --color-danger: #ff9a84;
+    --shadow-soft: 0 28px 80px rgba(0, 0, 0, 0.32);
+}
+
 * {
     box-sizing: border-box;
-    transition: all 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    min-height: 100%;
+    background: var(--color-bg);
 }
 
 body {
     margin: 0;
-    font-family: "SF Pro Display", -apple-system, sans-serif;
-    background: radial-gradient(circle at top, #061018, #02060a);
-    color: #d9faff;
-}
-
-body {
+    min-height: 100%;
+    background:
+        radial-gradient(circle at 50% -20%, rgba(255, 255, 255, 0.45), transparent 42%),
+        var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-main);
     overscroll-behavior: none;
-    -webkit-touch-callout: none;
 }
 
-#content {
-    padding-bottom: env(safe-area-inset-bottom);
+body.theme-dark {
+    background:
+        radial-gradient(circle at 50% -20%, rgba(255, 255, 255, 0.08), transparent 38%),
+        var(--color-bg);
 }
 
-/* GRID SUAU (HUD) */
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background-image:
-        linear-gradient(rgba(0,255,200,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,255,200,0.04) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
+button,
+input,
+select,
+textarea {
+    font: inherit;
 }
 
-/* =========================
-   CONTENIDOR (MÒBIL)
-========================= */
-#content {
-    max-width: 430px;
-    margin: auto;
-    padding: 16px;
-    padding-bottom: 90px;
+button {
+    border: 0;
+    color: inherit;
+    cursor: pointer;
 }
 
-/* =========================
-   CARDS (OSCROP STYLE)
-========================= */
-.card {
+.app-shell {
+    width: min(100%, 520px);
+    min-height: 100dvh;
+    margin: 0 auto;
     position: relative;
-    padding: 14px;
-    margin-bottom: 14px;
-
-    background: rgba(5, 20, 30, 0.65);
-    border: 1px solid rgba(0,255,200,0.15);
-
-    backdrop-filter: blur(6px);
+    overflow: hidden;
+    background: color-mix(in srgb, var(--color-bg) 92%, white 8%);
+    box-shadow: var(--shadow-soft);
 }
 
-/* línia superior estil HUD */
-.card::before {
-    content: "";
-    position: absolute;
+.app-header {
+    position: sticky;
     top: 0;
-    left: 0;
-    width: 40px;
-    height: 2px;
-    background: #00e0c6;
+    z-index: 20;
+    padding: 22px 18px 12px;
+    background: linear-gradient(to bottom, color-mix(in srgb, var(--color-bg) 94%, white 6%) 0%, color-mix(in srgb, var(--color-bg) 82%, transparent 18%) 78%, transparent 100%);
+    backdrop-filter: blur(18px);
 }
 
-/* =========================
-   TIPUS EXERCICI
-========================= */
-.main {
-    border-color: rgba(0,255,200,0.4);
+.header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
 }
 
-.variant {
-    border-color: rgba(0,150,255,0.3);
-}
-
-.assistance {
-    opacity: 0.85;
-}
-
-.core {
-    border-color: rgba(50,200,100,0.3);
-}
-
-/* =========================
-   TITOLS
-========================= */
-h2, h3 {
-    font-weight: 600;
-    letter-spacing: 1.5px;
+.eyebrow,
+.muted-label {
+    margin: 0 0 4px;
+    color: var(--color-muted);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: #00e0c6;
 }
 
-h2 {
-    font-size: 22px;
-    margin-bottom: 10px;
-}
-
-h3 {
-    font-size: 16px;
+h1,
+h2,
+h3,
+p {
     margin: 0;
 }
 
-/* =========================
-   TEXT SECUNDARI
-========================= */
-.sub {
-    font-size: 12px;
-    color: rgba(200,255,255,0.5);
-    margin-top: 4px;
+h1 {
+    font-size: 34px;
+    line-height: 0.95;
+    letter-spacing: -0.065em;
+    text-transform: uppercase;
+    font-weight: 950;
 }
 
-.work {
-    font-size: 13px;
-    color: rgba(200,255,255,0.5);
+.theme-toggle {
+    width: 46px;
+    height: 28px;
+    flex: 0 0 auto;
+    margin-top: 2px;
+
+    border-radius: 99px;
+    background: var(--color-accent-soft);
+
+    padding: 3px;
+
+    transition:
+        transform 180ms ease,
+        background 180ms ease,
+        box-shadow 180ms ease;
 }
 
-/* =========================
-   TOP SET
-========================= */
-.top-set {
-    font-size: 13px;
-    color: #00e0c6;
-    font-weight: 500;
+.theme-toggle span {
+    display: block;
+    width: 22px;
+    height: 22px;
+
+    border-radius: 50%;
+    background: var(--color-accent);
+
+    transform: translateX(0);
+
+    transition:
+        transform 220ms cubic-bezier(.2,.8,.2,1),
+        background 180ms ease;
 }
 
-/* =========================
-   INPUTS (FIX + STYLE)
-========================= */
-input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-
-    border-radius: 6px;
-    border: 1px solid rgba(0,255,200,0.2);
-
-    background: rgba(0, 10, 15, 0.8);
-    color: #00e0c6;
-
-    font-size: 15px;
-
-    outline: none;
+body.theme-dark .theme-toggle {
+    background: var(--color-accent-soft);
 }
 
-/* =========================
-   SELECTORS
-========================= */
-select {
-    padding: 6px;
-    margin: 5px 0;
-
-    border-radius: 6px;
-    border: 1px solid rgba(0,255,200,0.2);
-
-    background: rgba(0, 10, 15, 0.8);
-    color: #00e0c6;
+body.theme-dark .theme-toggle span {
+    transform: translateX(18px);
+    background: var(--color-accent);
 }
 
-/* =========================
-   BOTONS
-========================= */
-button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-
-    background: rgba(0,255,200,0.08);
-    border: 1px solid rgba(0,255,200,0.3);
-
-    color: #00e0c6;
-    font-weight: 600;
-
-    border-radius: 6px;
-}
-
-/* click */
-button:active {
+.theme-toggle:active,
+.view-tab:active,
+.day-head:active,
+.task-line:active,
+.exercise-check:active,
+.editor-actions button:active,
+.editor-day-head button:active,
+.editor-card-head button:active,
+.split-actions button:active {
     transform: scale(0.97);
 }
 
-/* =========================
-   NAVBAR (SPIDERMAN STYLE)
-========================= */
-/* =========================
-   NAVBAR (SPIDERMAN STYLE)
-========================= */
-.navbar {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 70px;
-
+.view-tabs {
     display: flex;
-
-    background: #bc2b3d;
-    border-top: 2px solid #322f33;
-
-    z-index: 100;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 18px 0 0;
+    scrollbar-width: none;
 }
 
-/* cada item = bloc */
-.nav-item {
-    flex: 1;
+.view-tabs::-webkit-scrollbar {
+    display: none;
+}
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.view-tab {
+    flex: 0 0 auto;
+    padding: 9px 13px;
+    border-radius: 999px;
+    background: transparent;
 
-    font-size: 10px;
-    letter-spacing: 1px;
+    color: var(--color-accent);
+
+    font-size: 12px;
+    font-weight: 850;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
 
-    color: rgba(50, 47, 51, 0.6);
-
-    position: relative;
+    transition:
+        background 180ms ease,
+        color 180ms ease,
+        transform 180ms ease,
+        opacity 180ms ease;
 }
 
-/* separadors verticals */
-.nav-item:not(:last-child)::after {
-    content: "";
-    position: absolute;
-    right: 0;
-    top: 15%;
-    height: 70%;
-    width: 1px;
-    background: rgba(0,255,200,0.2);
+.view-tab.active {
+    background: var(--color-text);
+    color: var(--color-bg);
 }
 
-/* estat actiu (IMPORTANT) */
-.nav-item.active {
-    background: #123544;
-    color: #00e0c6;
+.view-tab:not(.active) {
+    opacity: 0.78;
 }
 
-/* línia superior activa */
-.nav-item.active::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: #00e0c6;
+.view-tab:not(.active):hover {
+    opacity: 1;
 }
 
-.nav-item:active {
-    background: #0f2a38;
+.view-shell {
+    padding: 0 0 calc(26px + var(--safe-bottom));
 }
 
-/* =========================
-   WORKOUT MODE
-========================= */
-.workout-header {
-    display: flex;
-    justify-content: space-between;
+.enter {
+    animation: viewIn 280ms cubic-bezier(.16,.84,.31,1) both;
+}
+
+@keyframes viewIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.992);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.control-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 2px 18px 16px;
+}
+
+.control-strip label,
+.field {
+    display: grid;
+    gap: 7px;
+}
+
+.control-strip span,
+.field span,
+.actual-input span {
+    color: var(--color-muted);
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+select,
+input,
+textarea {
+    width: 100%;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.28);
+    color: var(--color-text);
+    outline: none;
+    transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+
+body.theme-dark select,
+body.theme-dark input,
+body.theme-dark textarea {
+    background: rgba(255, 255, 255, 0.07);
+}
+
+select,
+input {
+    min-height: 42px;
+    padding: 0 12px;
+}
+
+textarea {
+    min-height: 260px;
+    padding: 12px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12px;
+    line-height: 1.45;
+    resize: vertical;
+}
+
+select:focus,
+input:focus,
+textarea:focus {
+    border-color: color-mix(in srgb, var(--color-accent) 58%, var(--color-line));
+    box-shadow: 0 0 0 4px var(--color-accent-soft);
+}
+
+.today-summary {
+    padding: 0 18px 18px;
+}
+
+.today-summary > div {
+    padding: 18px;
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid var(--color-line);
+}
+
+body.theme-dark .today-summary > div {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.today-summary h2,
+.blueprint-hero h2,
+.editor-day h2 {
+    font-size: 42px;
+    line-height: 0.9;
+    letter-spacing: -0.065em;
+    font-weight: 950;
+    text-transform: uppercase;
+}
+
+.today-summary p:last-child,
+.blueprint-hero p,
+.editor-day-head p,
+.editor-note p,
+.import-panel p {
+    margin-top: 8px;
+    color: var(--color-text-soft);
+    font-size: 14px;
+    line-height: 1.35;
+}
+
+.week-stack {
+    margin: 0 0 22px;
+    border-top: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+}
+
+.day-block {
+    --shade: calc(100% - (var(--shade-index) * 5%));
+    background: color-mix(in srgb, var(--color-bg-soft) var(--shade), var(--color-text) calc(100% - var(--shade)));
+    border-bottom: 1px solid var(--color-line);
+    transition: background 220ms ease;
+}
+
+.day-block:last-child {
+    border-bottom: 0;
+}
+
+.day-block.is-active {
+    background: color-mix(in srgb, var(--color-surface) 88%, var(--color-bg) 12%);
+}
+
+body.theme-dark .day-block {
+    background: color-mix(in srgb, var(--color-surface) calc(88% - var(--shade-index) * 8%), black calc(12% + var(--shade-index) * 8%));
+}
+
+.day-head {
+    width: 100%;
+    min-height: 132px;
+    padding: 24px 18px;
+    display: grid;
+    grid-template-columns: 1fr auto;
     align-items: center;
+    text-align: left;
+    background: transparent;
+    transition: min-height 250ms cubic-bezier(.2,.8,.2,1), transform 160ms ease;
 }
 
-.workout-card {
-    background: rgba(5, 20, 30, 0.75);
-    border: 1px solid rgba(0,255,200,0.2);
-    padding: 14px;
-    margin-bottom: 12px;
+.day-block.is-active .day-head {
+    min-height: 168px;
+    align-items: end;
 }
 
-/* =========================
-   SETS VISUAL
-========================= */
-.sets {
-    margin: 10px 0;
+.day-title {
+    display: block;
+    grid-column: 1 / -1;
+    font-size: clamp(44px, 13vw, 72px);
+    line-height: 0.88;
+    letter-spacing: -0.08em;
+    font-weight: 950;
+    text-transform: uppercase;
 }
 
-.sets span {
-    font-size: 18px;
-    margin-right: 4px;
-    color: #033;
+.day-meta {
+    margin-top: 14px;
+    color: var(--color-text-soft);
+    font-size: 14px;
 }
 
-.sets .done {
-    color: #00e0c6;
+.day-progress {
+    align-self: end;
+    justify-self: end;
+    margin-top: 14px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.08);
+    color: var(--color-text-soft);
+    font-size: 12px;
+    font-weight: 850;
 }
 
-/* animació */
-.done-anim {
-    animation: pop 0.25s ease;
+body.theme-dark .day-progress {
+    background: rgba(255, 255, 255, 0.10);
 }
 
-@keyframes pop {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-    100% { transform: scale(1); }
+.day-details {
+    padding: 0 18px 24px;
+    animation: stackOpen 260ms cubic-bezier(.16,.84,.31,1) both;
 }
 
-/* =========================
-   TIMER
-========================= */
-#timer {
-    font-size: 24px;
-    font-weight: bold;
-    color: #00e0c6;
-}
-
-/* =========================
-   ESTIRAMENTS
-========================= */
-.stretch-block {
-    margin-top: 20px;
-}
-
-.stretch-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 6px 0;
-    border-bottom: 1px solid rgba(0,255,200,0.1);
-}
-
-.stretch-item:last-child {
-    border-bottom: none;
-}
-
-.stretch-item strong {
-    color: #00e0c6;
-}
-
-/* =========================
-   MICRO INTERACCIÓ
-========================= */
-.card:active {
-    transform: scale(0.98);
-}
-
-/* =========================
-   PAGE TRANSITIONS
-========================= */
-.fade-out {
-    opacity: 0;
-    transform: translateY(10px);
-}
-
-.fade-in {
-    opacity: 0;
-    transform: translateY(10px);
-    animation: fadeIn 0.25s ease forwards;
-}
-
-@keyframes fadeIn {
+@keyframes stackOpen {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-.current-week {
-    border: 2px solid #00e0c6;
-    background: rgba(0,255,200,0.08);
-    box-shadow: 0 0 12px rgba(0,255,200,0.2);
+.daily-section {
+    padding: 16px;
+    margin-bottom: 12px;
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, var(--color-surface) 84%, white 16%);
+    border: 1px solid var(--color-line);
 }
 
-html {
-    background: radial-gradient(circle at top, #061018, #02060a);
+body.theme-dark .daily-section {
+    background: rgba(255, 255, 255, 0.07);
 }
 
-html, body {
-    overflow-x: hidden;
+.section-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
 }
 
-body {
-    position: fixed;
+.section-heading h3,
+.import-panel h2 {
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: -0.045em;
+    font-weight: 950;
+    text-transform: uppercase;
+}
+
+.section-heading span {
+    color: var(--color-muted);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.task-list,
+.exercise-list,
+.blueprint-list,
+.editor-list {
+    display: grid;
+    gap: 10px;
+}
+
+.task-line {
     width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    background: radial-gradient(circle at top, #061018, #02060a);
+    min-height: 52px;
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    text-align: left;
+    border-radius: var(--radius-md);
+    background: transparent;
+    transition: background 180ms ease, transform 160ms ease;
 }
 
-body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -1;
+.task-line:hover,
+.exercise-line:hover {
+    background: rgba(0, 0, 0, 0.035);
+}
 
-    background: radial-gradient(circle at top, #061018, #02060a);
+body.theme-dark .task-line:hover,
+body.theme-dark .exercise-line:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.checkbox {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--color-text-soft);
+    border-radius: 6px;
+    display: grid;
+    place-items: center;
+    transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.checkbox span {
+    width: 11px;
+    height: 7px;
+    border-left: 2px solid white;
+    border-bottom: 2px solid white;
+    transform: rotate(-45deg) translate(1px, -1px) scale(0);
+    transition: transform 180ms cubic-bezier(.16,.84,.31,1);
+}
+
+.done .checkbox,
+.exercise-line.done .checkbox {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    transform: scale(1.02);
+}
+
+.done .checkbox span,
+.exercise-line.done .checkbox span {
+    transform: rotate(-45deg) translate(1px, -1px) scale(1);
+}
+
+.task-copy {
+    display: grid;
+    gap: 3px;
+}
+
+.task-copy strong,
+.exercise-title-row strong,
+.blueprint-item strong {
+    font-size: 16px;
+    line-height: 1.15;
+    font-weight: 780;
+}
+
+.task-copy small,
+.exercise-main small,
+.blueprint-item p {
+    color: var(--color-text-soft);
+    font-size: 13px;
+    line-height: 1.35;
+}
+
+.done .task-copy strong,
+.exercise-line.done .exercise-main strong {
+    text-decoration: line-through;
+    text-decoration-color: var(--color-accent);
+    color: var(--color-text-soft);
+}
+
+.exercise-line {
+    display: grid;
+    grid-template-columns: 30px 1fr 84px;
+    gap: 12px;
+    padding: 12px 10px;
+    border-radius: var(--radius-md);
+    transition: background 180ms ease, transform 160ms ease;
+}
+
+.exercise-check {
+    align-self: start;
+    background: transparent;
+    padding: 0;
+}
+
+.exercise-main {
+    min-width: 0;
+}
+
+.exercise-title-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.exercise-title-row em {
+    color: var(--color-muted);
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 850;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.exercise-main p {
+    margin-top: 4px;
+    color: var(--color-text-soft);
+    font-size: 13px;
+    line-height: 1.35;
+}
+
+.exercise-main .top-line {
+    color: var(--color-accent);
+    font-weight: 850;
+}
+
+.actual-input {
+    display: grid;
+    gap: 6px;
+    align-self: start;
+}
+
+.actual-input input {
+    min-height: 36px;
+    padding: 0 8px;
+    text-align: center;
+}
+
+.editor-actions,
+.split-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 0 18px 14px;
+}
+
+.editor-actions button,
+.editor-day-head button,
+.editor-card-head button,
+.split-actions button {
+    min-height: 42px;
+    border-radius: var(--radius-sm);
+    background: var(--color-text);
+    color: var(--color-bg);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: transform 160ms ease, opacity 180ms ease;
+}
+
+.editor-actions button:nth-child(2),
+.editor-card-head button {
+    background: transparent;
+    color: var(--color-danger);
+    border: 1px solid color-mix(in srgb, var(--color-danger) 36%, transparent);
+}
+
+.editor-note,
+.import-panel,
+.editor-day,
+.blueprint-hero {
+    margin: 0 18px 14px;
+    padding: 18px;
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid var(--color-line);
+}
+
+body.theme-dark .editor-note,
+body.theme-dark .import-panel,
+body.theme-dark .editor-day,
+body.theme-dark .blueprint-hero {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.import-panel textarea {
+    margin-top: 12px;
+}
+
+.import-panel .split-actions {
+    padding: 12px 0 0;
+}
+
+.editor-day-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.editor-day-head button {
+    width: 84px;
+    flex: 0 0 84px;
+}
+
+.editor-card {
+    margin-top: 12px;
+    padding: 14px;
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--color-surface) 78%, transparent 22%);
+    border: 1px solid var(--color-line);
+}
+
+body.theme-dark .editor-card {
+    background: rgba(0, 0, 0, 0.12);
+}
+
+.editor-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.editor-card-head strong {
+    color: var(--color-muted);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+}
+
+.editor-card-head button {
+    width: auto;
+    min-height: 34px;
+    padding: 0 12px;
+}
+
+.field.full {
+    margin-top: 10px;
+}
+
+.field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.blueprint-hero span {
+    display: inline-flex;
+    margin-bottom: 10px;
+    color: var(--color-muted);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.blueprint-list {
+    padding: 0 18px 24px;
+}
+
+.blueprint-item {
+    display: grid;
+    grid-template-columns: 42px 1fr;
+    gap: 12px;
+    padding: 18px;
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, var(--color-surface) 68%, white 32%);
+    border: 1px solid var(--color-line);
+    animation: itemIn 280ms cubic-bezier(.16,.84,.31,1) both;
+    animation-delay: calc(var(--i) * 35ms);
+}
+
+body.theme-dark .blueprint-item {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.blueprint-item > span {
+    color: var(--color-accent);
+    font-size: 13px;
+    font-weight: 950;
+    letter-spacing: 0.08em;
+}
+
+.blueprint-item p {
+    margin-top: 4px;
+}
+
+@keyframes itemIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 420px) {
+    .app-header {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+
+    .control-strip,
+    .plan-controls,
+    .editor-actions,
+    .split-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .day-title {
+        font-size: clamp(42px, 15vw, 64px);
+    }
+
+    .exercise-line {
+        grid-template-columns: 30px 1fr;
+    }
+
+    .actual-input {
+        grid-column: 2;
+        grid-template-columns: 58px 1fr;
+        align-items: center;
+    }
+
+    .field-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
 }
