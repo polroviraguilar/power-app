@@ -2,9 +2,9 @@
   "use strict";
 
   const STORAGE = {
-    plan: "powerApp.weekstack.plan.juliol2026.v1",
-    donePrefix: "powerApp.weekstack.done.juliol2026.v1",
-    actualPrefix: "powerApp.weekstack.actual.juliol2026.v1",
+    plan: "powerApp.weekstack.plan.agost2026.v1",
+    donePrefix: "powerApp.weekstack.done.agost2026.v1",
+    actualPrefix: "powerApp.weekstack.actual.agost2026.v1",
     theme: "powerApp.weekstack.theme.v2"
   };
 
