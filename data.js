@@ -197,13 +197,133 @@ const APP_SETTINGS = {
 
 const CARDIO_SESSION = progression["Cardio"]["0"];
 
-const WARMUPS = Object.fromEntries(
-  APP_DAYS.map(day => [day.key, []])
-);
+const WARMUPS = {
+  "Upper 1": [
+    {
+      title: "Activació general",
+      detail: "Caminar 10 min"
+    },
+    {
+      title: "Mobilitat de torso",
+      detail: "Rutina estiraments torso"
+    },
+    {
+      title: "Approachings",
+      detail: "Approachings del primer exercici"
+    }
+  ],
 
-const MOBILITY = Object.fromEntries(
-  APP_DAYS.map(day => [day.key, []])
-);
+  "Lower 1": [
+    {
+      title: "Activació general",
+      detail: "Caminar 10 min"
+    },
+    {
+      title: "Mobilitat de cames",
+      detail: "Rutina estiraments cames"
+    },
+    {
+      title: "Approachings",
+      detail: "Approachings del primer exercici"
+    }
+  ],
+
+  "Cardio": [],
+
+  "Upper 2": [
+    {
+      title: "Activació general",
+      detail: "Caminar 10 min"
+    },
+    {
+      title: "Mobilitat de torso",
+      detail: "Rutina estiraments torso"
+    },
+    {
+      title: "Approachings",
+      detail: "Approachings del primer exercici"
+    }
+  ],
+
+  "Lower 2": [
+    {
+      title: "Activació general",
+      detail: "Caminar 10 min"
+    },
+    {
+      title: "Mobilitat de cames",
+      detail: "Rutina estiraments cames"
+    },
+    {
+      title: "Approachings",
+      detail: "Approachings del primer exercici"
+    }
+  ]
+};
+
+const MOBILITY = {
+  "Upper 1": [
+    {
+      title: "Couch stretch",
+      detail: "2 x 30-45\" per costat"
+    },
+    {
+      title: "Deep squat hold",
+      detail: "2 x 30-45\""
+    },
+    {
+      title: "Respiració supina",
+      detail: "2 min per baixar revolucions"
+    }
+  ],
+
+  "Lower 1": [
+    {
+      title: "Dead hang",
+      detail: "2 x 20-30\""
+    },
+    {
+      title: "Pec doorway stretch",
+      detail: "2 x 30\" per costat"
+    },
+    {
+      title: "Open book stretch",
+      detail: "2 x 5 reps per costat"
+    }
+  ],
+
+  "Cardio": [],
+
+  "Upper 2": [
+    {
+      title: "Hamstring floss",
+      detail: "2 x 8 per costat"
+    },
+    {
+      title: "Hip flexor stretch",
+      detail: "2 x 30\" per costat"
+    },
+    {
+      title: "Lat stretch",
+      detail: "2 x 30\" per costat"
+    }
+  ],
+
+  "Lower 2": [
+    {
+      title: "Cossack squat",
+      detail: "2 x 6-8 per costat"
+    },
+    {
+      title: "Shoulder opener",
+      detail: "2 x 8 reps"
+    },
+    {
+      title: "Legs up breathing",
+      detail: "2 min"
+    }
+  ]
+};
 
 const PROGRAM_BLUEPRINT = Object.fromEntries(
   Object.entries(PROGRAM).map(([dayKey, day]) => [
