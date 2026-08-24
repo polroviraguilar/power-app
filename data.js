@@ -264,31 +264,55 @@ const WARMUPS = {
 const MOBILITY = {
   "Upper 1": [
     {
-      title: "Couch stretch",
-      detail: "2 x 30-45\" per costat"
+      title: "Scapular CARs",
+      detail: "2 x 8 rotacions · Mou només l’escàpula, no el colze"
     },
     {
-      title: "Deep squat hold",
-      detail: "2 x 30-45\""
+      title: "Shoulder CARs",
+      detail: "2 x 6 rotacions · Moviment lent controlant tot el rang"
     },
     {
-      title: "Respiració supina",
-      detail: "2 min per baixar revolucions"
+      title: "Wall Angels",
+      detail: "2 x 10 repeticions · Mantingues esquena i canells contra la paret"
+    },
+    {
+      title: "Banded External Rotations",
+      detail: "2 x 12 repeticions · Colze enganxat al cos"
+    },
+    {
+      title: "Open Book Stretch",
+      detail: "2 x 20-30\" per costat · Respira profundament mentre rotes"
+    },
+    {
+      title: "Dead Hang",
+      detail: "2 x 20-30\" · Relaxa l’espatlla i deixa que la gravetat obri l’articulació"
     }
   ],
 
   "Lower 1": [
     {
-      title: "Dead hang",
-      detail: "2 x 20-30\""
+      title: "Hip CARs",
+      detail: "2 x 6 rotacions · Moviment lent sense moure la pelvis"
     },
     {
-      title: "Pec doorway stretch",
-      detail: "2 x 30\" per costat"
+      title: "Figure-4 Stretch",
+      detail: "2 x 30\" per costat · Relaxa el gluti profund"
     },
     {
-      title: "Open book stretch",
-      detail: "2 x 5 reps per costat"
+      title: "Cossack Squats",
+      detail: "2 x 6-8 per costat · Pit alt i genoll alineat"
+    },
+    {
+      title: "Jefferson Curls",
+      detail: "2 x 8 repeticions · Baixa vèrtebra a vèrtebra"
+    },
+    {
+      title: "Couch Stretch",
+      detail: "2 x 30\" per costat · Mantingues glutis activats"
+    },
+    {
+      title: "Deep Squat Hold + Respiració",
+      detail: "2 x 30-45\" · Respira profund mantenint els talons a terra"
     }
   ],
 
@@ -296,31 +320,55 @@ const MOBILITY = {
 
   "Upper 2": [
     {
-      title: "Hamstring floss",
-      detail: "2 x 8 per costat"
+      title: "Scapular CARs",
+      detail: "2 x 8 rotacions · Mou només l’escàpula, no el colze"
     },
     {
-      title: "Hip flexor stretch",
-      detail: "2 x 30\" per costat"
+      title: "Shoulder CARs",
+      detail: "2 x 6 rotacions · Moviment lent controlant tot el rang"
     },
     {
-      title: "Lat stretch",
-      detail: "2 x 30\" per costat"
+      title: "Wall Angels",
+      detail: "2 x 10 repeticions · Mantingues esquena i canells contra la paret"
+    },
+    {
+      title: "Banded External Rotations",
+      detail: "2 x 12 repeticions · Colze enganxat al cos"
+    },
+    {
+      title: "Open Book Stretch",
+      detail: "2 x 20-30\" per costat · Respira profundament mentre rotes"
+    },
+    {
+      title: "Dead Hang",
+      detail: "2 x 20-30\" · Relaxa l’espatlla i deixa que la gravetat obri l’articulació"
     }
   ],
 
   "Lower 2": [
     {
-      title: "Cossack squat",
-      detail: "2 x 6-8 per costat"
+      title: "Hip CARs",
+      detail: "2 x 6 rotacions · Moviment lent sense moure la pelvis"
     },
     {
-      title: "Shoulder opener",
-      detail: "2 x 8 reps"
+      title: "Figure-4 Stretch",
+      detail: "2 x 30\" per costat · Relaxa el gluti profund"
     },
     {
-      title: "Legs up breathing",
-      detail: "2 min"
+      title: "Cossack Squats",
+      detail: "2 x 6-8 per costat · Pit alt i genoll alineat"
+    },
+    {
+      title: "Jefferson Curls",
+      detail: "2 x 8 repeticions · Baixa vèrtebra a vèrtebra"
+    },
+    {
+      title: "Couch Stretch",
+      detail: "2 x 30\" per costat · Mantingues glutis activats"
+    },
+    {
+      title: "Deep Squat Hold + Respiració",
+      detail: "2 x 30-45\" · Respira profund mantenint els talons a terra"
     }
   ]
 };
