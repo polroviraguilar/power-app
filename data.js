@@ -1,1215 +1,219 @@
-const progression = {
+/* Power App - nou bloc 24/08/2026 -> 20/12/2026 */
+
+const PROGRAM = {
   "Upper 1": {
-    "0": {
-      "phase": "Vacances",
-      "exercises": {
-        "Squat competició single": {
-          "work": "Vacances"
-        },
-        "Squat competició volum": {
-          "work": "Vacances"
-        },
-        "Bench competició volum": {
-          "work": "Vacances"
-        },
-        "Rem amb suport al pit": {
-          "work": "Vacances"
-        },
-        "Curl femoral": {
-          "work": "Vacances"
-        },
-        "Crunch a politja agenollat": {
-          "work": "Vacances"
-        }
-      }
-    },
-    "1": {
-      "phase": "Build",
-      "exercises": {
-        "Squat competició single": {
-          "top": "1x1 @ 145 kg / RPE 6"
-        },
-        "Squat competició volum": {
-          "work": "5x3 @ 121,25 kg / RPE 6"
-        },
-        "Bench competició volum": {
-          "work": "5x4 @ 91,25 kg / RPE 6"
-        },
-        "Rem amb suport al pit": {
-          "work": "8-10x3 @ 70-75 kg / RPE 7"
-        },
-        "Curl femoral": {
-          "work": "10-12x3 @ pes fàcil / RPE 7"
-        },
-        "Crunch a politja agenollat": {
-          "work": "10-15x3 @ 25-30 kg / RPE 7"
-        }
-      }
-    },
-    "2": {
-      "phase": "Build",
-      "exercises": {
-        "Squat competició single": {
-          "top": "1x1 @ 155 kg / RPE 7"
-        },
-        "Squat competició volum": {
-          "work": "4x4 @ 130 kg / RPE 6,5-7"
-        },
-        "Bench competició volum": {
-          "work": "5x4 @ 95 kg / RPE 6,5"
-        },
-        "Rem amb suport al pit": {
-          "work": "8-10x3 @ 75-80 kg / RPE 7"
-        },
-        "Curl femoral": {
-          "work": "10x3 @ pes moderat / RPE 7"
-        },
-        "Crunch a politja agenollat": {
-          "work": "10-15x3 @ 30-32,5 kg / RPE 7-8"
-        }
-      }
-    },
-    "3": {
-      "phase": "Vacances",
-      "exercises": {
-        "Squat competició single": {
-          "work": "Vacances"
-        },
-        "Squat competició volum": {
-          "work": "Vacances"
-        },
-        "Bench competició volum": {
-          "work": "Vacances"
-        },
-        "Rem amb suport al pit": {
-          "work": "Vacances"
-        },
-        "Curl femoral": {
-          "work": "Vacances"
-        },
-        "Crunch a politja agenollat": {
-          "work": "Vacances"
-        }
-      }
-    },
-    "4": {
-      "phase": "Build",
-      "exercises": {
-        "Squat competició single": {
-          "top": "1x1 @ 150 kg / RPE 6-6,5"
-        },
-        "Squat competició volum": {
-          "work": "5x3 @ 126,25 kg / RPE 6"
-        },
-        "Bench competició volum": {
-          "work": "5x4 @ 95 kg / RPE 6-6,5"
-        },
-        "Rem amb suport al pit": {
-          "work": "8-10x3 @ 75 kg / RPE 7"
-        },
-        "Curl femoral": {
-          "work": "10-12x3 @ pes fàcil / RPE 7"
-        },
-        "Crunch a politja agenollat": {
-          "work": "10-15x3 @ 30 kg / RPE 7"
-        }
-      }
-    },
-    "5": {
-      "phase": "Push",
-      "exercises": {
-        "Squat competició single": {
-          "top": "1x1 @ 160 kg / RPE 7-7,5"
-        },
-        "Squat competició volum": {
-          "work": "4x4 @ 135 kg / RPE 7"
-        },
-        "Bench competició volum": {
-          "work": "4x5 @ 97,5 kg / RPE 7"
-        },
-        "Rem amb suport al pit": {
-          "work": "8-10x4 @ 80-85 kg / RPE 8"
-        },
-        "Curl femoral": {
-          "work": "10-12x3 @ pes moderat / RPE 8"
-        },
-        "Crunch a politja agenollat": {
-          "work": "10-15x3 @ 32,5-35 kg / RPE 8"
-        }
-      }
-    },
-    "6": {
-      "phase": "Push",
-      "exercises": {
-        "Squat competició single": {
-          "top": "1x1 @ 165 kg / RPE 8"
-        },
-        "Squat competició volum": {
-          "work": "3x3 @ 140 kg / RPE 7-7,5"
-        },
-        "Bench competició volum": {
-          "work": "4x4 @ 101,25 kg / RPE 7"
-        },
-        "Rem amb suport al pit": {
-          "work": "8-10x3 @ 80 kg / RPE 8"
-        },
-        "Curl femoral": {
-          "work": "10x2-3 @ pes moderat / RPE 7"
-        },
-        "Crunch a politja agenollat": {
-          "work": "10-15x3 @ 32,5 kg / RPE 8"
-        }
-      }
-    }
+    exercises: ["Paused Bench - Top Set", "Paused Bench Press", "Long Pause Bench", "Weighted Pull-ups", "Chest Supported Row", "Triceps Pushdown", "Face Pull"],
+    weeks: [
+      ["Readaptació", "1x1 @ 110 kg (RPE 5-6)", "3x5 @ 90 kg (RPE 5-6)", "2x5 @ 80 kg (RPE 5)", "3x6 @ BW+20 kg (RPE 6)", "3x8 @ 30 kg/costat (RPE 6)", "2x12-15 @ 32 kg (RPE 6)", "2x15-20 @ 25 kg (RPE 6)"],
+      ["Acumulació I", "1x1 @ 112,5 kg (RPE 6)", "4x5 @ 92,5 kg (RPE 6)", "3x5 @ 82,5 kg (RPE 6)", "4x6 @ BW+25 kg (RPE 7)", "4x8 @ 32,5 kg/costat (RPE 7)", "3x12 @ 35 kg (RPE 7)", "3x15 @ 27 kg (RPE 6-7)"],
+      ["Acumulació I", "1x1 @ 115 kg (RPE 6,5)", "4x5 @ 95 kg (RPE 6-7)", "3x5 @ 85 kg (RPE 6-7)", "4x6 @ BW+27,5 kg (RPE 7)", "4x8 @ 35 kg/costat (RPE 7)", "3x12-15 @ 36 kg (RPE 7)", "3x15 @ 29 kg (RPE 7)"],
+      ["Acumulació I", "1x1 @ 117,5 kg (RPE 7)", "4x5 @ 97,5 kg (RPE 7)", "3x5 @ 87,5 kg (RPE 7)", "4x6 @ BW+30 kg (RPE 7-8)", "4x8 @ 37,5 kg/costat (RPE 7-8)", "3x10-12 @ 37 kg (RPE 8)", "3x15 @ 30 kg (RPE 7)"],
+      ["DELOAD", "1x1 @ 105 kg (RPE 5)", "2x5 @ 80 kg (RPE 5)", "2x5 @ 70 kg (RPE 5)", "3x5 @ BW+10 kg (RPE 5-6)", "2x8 @ 25 kg/costat (RPE 5-6)", "2x12 @ 30 kg (RPE 6)", "2x15 @ 24 kg (RPE 6)"],
+      ["Força base", "1x1 @ 117,5 kg (RPE 7)", "4x4 @ 100 kg (RPE 6,5-7)", "3x4 @ 90 kg (RPE 6-7)", "4x6 @ BW+30 kg (RPE 7)", "4x8 @ 40 kg/costat (RPE 7)", "3x10-12 @ 37 kg (RPE 7)", "3x15 @ 32 kg (RPE 7)"],
+      ["Força base", "1x1 @ 120 kg (RPE 7,5)", "4x4 @ 102,5 kg (RPE 7)", "3x4 @ 92,5 kg (RPE 7)", "4x6 @ BW+32,5 kg (RPE 7-8)", "4x8 @ 42,5 kg/costat (RPE 7-8)", "3x10-12 @ 38 kg (RPE 7-8)", "3x15 @ 34 kg (RPE 7)"],
+      ["Força base", "1x1 @ 122,5 kg (RPE 8)", "4x4 @ 105 kg (RPE 7-7,5)", "3x4 @ 95 kg (RPE 7-8)", "4x6 @ BW+35 kg (RPE 8)", "4x8 @ 45 kg/costat (RPE 8)", "3x10 @ 39 kg (RPE 8)", "3x15 @ 36 kg (RPE 7-8)"],
+      ["DELOAD", "1x1 @ 110 kg (RPE 5-6)", "3x4 @ 85 kg (RPE 5)", "2x4 @ 75 kg (RPE 5)", "3x5 @ BW+15 kg (RPE 5-6)", "2x8 @ 30 kg/costat (RPE 6)", "2x12 @ 30 kg (RPE 6)", "2x15 @ 25 kg (RPE 6)"],
+      ["Força", "1x1 @ 122,5 kg (RPE 8)", "3x3 @ 107,5 kg (RPE 7)", "3x3 @ 97,5 kg (RPE 7)", "4x5 @ BW+35 kg (RPE 7-8)", "4x8 @ 45 kg/costat (RPE 7-8)", "3x10 @ 39 kg (RPE 7-8)", "3x15 @ 36 kg (RPE 7)"],
+      ["Força", "1x1 @ 125 kg (RPE 8)", "3x3 @ 110 kg (RPE 7-7,5)", "3x3 @ 100 kg (RPE 7-8)", "4x5 @ BW+37,5 kg (RPE 8)", "4x8 @ 47,5 kg/costat (RPE 8)", "3x8-10 @ 40 kg (RPE 8)", "3x15 @ 38 kg (RPE 7-8)"],
+      ["Força", "1x1 @ 127,5 kg (RPE 8,5)", "3x3 @ 112,5 kg (RPE 7,5)", "3x3 @ 102,5 kg (RPE 8)", "4x5 @ BW+40 kg (RPE 8)", "4x8 @ 50 kg/costat (RPE 8)", "3x8-10 @ 41 kg (RPE 8)", "3x15 @ 40 kg (RPE 8)"],
+      ["DELOAD", "1x1 @ 112,5 kg (RPE 5-6)", "2x3 @ 90 kg (RPE 5)", "2x3 @ 80 kg (RPE 5)", "3x5 @ BW+20 kg (RPE 6)", "2x8 @ 35 kg/costat (RPE 6)", "2x10 @ 32 kg (RPE 6)", "2x15 @ 27 kg (RPE 6)"],
+      ["Intensificació", "1x1 @ 127,5 kg (RPE 8)", "3x2 @ 115 kg (RPE 7-7,5)", "2x3 @ 100 kg (RPE 7)", "4x4 @ BW+40 kg (RPE 8)", "3x8 @ 50 kg/costat (RPE 7)", "3x8 @ 40 kg (RPE 7)", "2x15 @ 38 kg (RPE 7)"],
+      ["Intensificació", "1x1 @ 130 kg (RPE 8,5)", "2x2 @ 117,5 kg (RPE 7,5-8)", "2x2 @ 105 kg (RPE 7)", "4x4 @ BW+42,5 kg (RPE 8)", "3x8 @ 52,5 kg/costat (RPE 7-8)", "3x8 @ 41 kg (RPE 7-8)", "2x15 @ 40 kg (RPE 7)"],
+      ["Intensificació / taper", "1x1 @ 132,5 kg (RPE 8,5-9)", "2x1 @ 120 kg (RPE 7)", "2x2 @ 100 kg (RPE 6)", "3x4 @ BW+40 kg (RPE 7)", "3x6-8 @ 45 kg/costat (RPE 7)", "2x8 @ 37 kg (RPE 6-7)", "2x15 @ 32 kg (RPE 6)"],
+      ["TEST", "125x1 -> 132,5x1 -> 137,5-142,5x1 3r intent només si el 2n <= RPE 8,5", "-", "-", "-", "-", "-", "-"],
+    ]
   },
+
   "Lower 1": {
-    "0": {
-      "phase": "Vacances",
-      "exercises": {
-        "Bench competició single": {
-          "work": "Vacances"
-        },
-        "Bench competició volum": {
-          "work": "Vacances"
-        },
-        "Press militar / manuelles": {
-          "work": "Vacances"
-        },
-        "Dominades / jaló": {
-          "work": "Vacances"
-        },
-        "Pressdown de tríceps amb barra recta": {
-          "work": "Vacances"
-        },
-        "Elevacions laterals": {
-          "work": "Vacances"
-        }
-      }
-    },
-    "1": {
-      "phase": "Build",
-      "exercises": {
-        "Bench competició single": {
-          "top": "1x1 @ 107,5 kg / RPE 6"
-        },
-        "Bench competició volum": {
-          "work": "4x4 @ 97,5 kg / RPE 6,5"
-        },
-        "Press militar / manuelles": {
-          "work": "6-8x3 @ 50 kg / RPE 7"
-        },
-        "Dominades / jaló": {
-          "work": "6x4 @ +27,5 kg / RPE 7"
-        },
-        "Pressdown de tríceps amb barra recta": {
-          "work": "10-15x3 @ 35 kg / RPE 7-8"
-        },
-        "Elevacions laterals": {
-          "work": "12-20x3 @ 12,5 kg / RPE 8"
-        }
-      }
-    },
-    "2": {
-      "phase": "Build",
-      "exercises": {
-        "Bench competició single": {
-          "top": "1x1 @ 115 kg / RPE 7"
-        },
-        "Bench competició volum": {
-          "work": "4x5 @ 101,25 kg / RPE 7"
-        },
-        "Press militar / manuelles": {
-          "work": "8x3 @ 52,5 kg / RPE 7"
-        },
-        "Dominades / jaló": {
-          "work": "6x4 @ +30 kg / RPE 7"
-        },
-        "Pressdown de tríceps amb barra recta": {
-          "work": "10-15x3 @ 37,5 kg / RPE 8"
-        },
-        "Elevacions laterals": {
-          "work": "12-20x3 @ 15 kg / RPE 8"
-        }
-      }
-    },
-    "3": {
-      "phase": "Vacances",
-      "exercises": {
-        "Bench competició single": {
-          "work": "Vacances"
-        },
-        "Bench competició volum": {
-          "work": "Vacances"
-        },
-        "Press militar / manuelles": {
-          "work": "Vacances"
-        },
-        "Dominades / jaló": {
-          "work": "Vacances"
-        },
-        "Pressdown de tríceps amb barra recta": {
-          "work": "Vacances"
-        },
-        "Elevacions laterals": {
-          "work": "Vacances"
-        }
-      }
-    },
-    "4": {
-      "phase": "Build",
-      "exercises": {
-        "Bench competició single": {
-          "top": "1x1 @ 110 kg / RPE 6,5"
-        },
-        "Bench competició volum": {
-          "work": "4x4 @ 101,25 kg / RPE 6,5-7"
-        },
-        "Press militar / manuelles": {
-          "work": "6-8x3 @ 50 kg / RPE 7"
-        },
-        "Dominades / jaló": {
-          "work": "6x4 @ +27,5 kg / RPE 7"
-        },
-        "Pressdown de tríceps amb barra recta": {
-          "work": "10-15x3 @ 36 kg / RPE 7-8"
-        },
-        "Elevacions laterals": {
-          "work": "12-20x3 @ 12,5-15 kg / RPE 8"
-        }
-      }
-    },
-    "5": {
-      "phase": "Push",
-      "exercises": {
-        "Bench competició single": {
-          "top": "1x1 @ 120 kg / RPE 7,5"
-        },
-        "Bench competició volum": {
-          "work": "3x5 @ 105 kg / RPE 7"
-        },
-        "Press militar / manuelles": {
-          "work": "8x3 @ 55 kg / RPE 8"
-        },
-        "Dominades / jaló": {
-          "work": "5-6x4 @ +32,5 kg / RPE 8"
-        },
-        "Pressdown de tríceps amb barra recta": {
-          "work": "10-15x3 @ 39 kg / RPE 8"
-        },
-        "Elevacions laterals": {
-          "work": "12-20x3 @ 15 kg / RPE 8"
-        }
-      }
-    },
-    "6": {
-      "phase": "Push",
-      "exercises": {
-        "Bench competició single": {
-          "top": "1x1 @ 125 kg / RPE 8"
-        },
-        "Bench competició volum": {
-          "work": "3x3 @ 108,75 kg / RPE 7-7,5"
-        },
-        "Press militar / manuelles": {
-          "work": "8x2-3 @ 52,5 kg / RPE 7"
-        },
-        "Dominades / jaló": {
-          "work": "5x3-4 @ +30 kg / RPE 7-8"
-        },
-        "Pressdown de tríceps amb barra recta": {
-          "work": "12x2-3 @ 37,5 kg / RPE 8"
-        },
-        "Elevacions laterals": {
-          "work": "12-20x2-3 @ 12,5-15 kg / RPE 8"
-        }
-      }
-    }
+    exercises: ["Back Squat - Top Set", "Back Squat", "Paused Squat", "Paused Bench tècnic", "RDL", "Bulgarian Split Squat", "Leg Curl", "Weighted Plank"],
+    weeks: [
+      ["Readaptació", "1x1 @ 145 kg (RPE 5-6)", "3x5 @ 120 kg (RPE 5-6)", "2x5 @ 100 kg (RPE 5)", "2x5 @ 80 kg (RPE 5)", "2x8 @ 100 kg (RPE 6)", "2x8/cama @ 50 kg total (RPE 6)", "2x12 @ RPE 6", "2x30-45s @ moderat"],
+      ["Acumulació I", "1x1 @ 150 kg (RPE 6)", "4x5 @ 125 kg (RPE 6)", "3x5 @ 105 kg (RPE 6)", "3x5 @ 82,5 kg (RPE 5-6)", "3x8 @ 105 kg (RPE 6-7)", "3x8/cama @ 55 kg total (RPE 7)", "3x12 @ RPE 7", "3x45s @ moderat"],
+      ["Acumulació I", "1x1 @ 155 kg (RPE 6,5)", "4x5 @ 127,5 kg (RPE 6-7)", "3x5 @ 110 kg (RPE 6-7)", "3x5 @ 85 kg (RPE 6)", "3x8 @ 110 kg (RPE 7)", "3x8/cama @ 57,5 kg total (RPE 7)", "3x12 @ RPE 7", "3x45-60s @ moderat"],
+      ["Acumulació I", "1x1 @ 160 kg (RPE 7)", "4x5 @ 130 kg (RPE 7)", "3x5 @ 112,5 kg (RPE 7)", "3x5 @ 87,5 kg (RPE 6)", "3x8 @ 115 kg (RPE 7-8)", "3x8/cama @ 60 kg total (RPE 8)", "3x10-12 @ RPE 8", "3x60s @ moderat"],
+      ["DELOAD", "1x1 @ 140 kg (RPE 5)", "2x5 @ 110 kg (RPE 5)", "2x5 @ 90 kg (RPE 5)", "2x5 @ 70 kg (RPE 5)", "2x8 @ 90 kg (RPE 5-6)", "2x8/cama @ 45 kg total (RPE 6)", "2x12 @ RPE 6", "2x30s @ lleuger"],
+      ["Força base", "1x1 @ 160 kg (RPE 7)", "4x4 @ 132,5 kg (RPE 6,5-7)", "3x4 @ 115 kg (RPE 7)", "3x5 @ 87,5 kg (RPE 6)", "3x6 @ 120 kg (RPE 7)", "3x8/cama @ 60 kg total (RPE 7)", "3x10-12 @ RPE 7", "3x45s @ moderat"],
+      ["Força base", "1x1 @ 165 kg (RPE 7,5)", "4x4 @ 135 kg (RPE 7)", "3x4 @ 117,5 kg (RPE 7)", "3x5 @ 90 kg (RPE 6)", "3x6 @ 125 kg (RPE 7-8)", "3x8/cama @ 62,5 kg total (RPE 7-8)", "3x10 @ RPE 7-8", "3x45-60s @ moderat"],
+      ["Força base", "1x1 @ 170 kg (RPE 8)", "4x4 @ 137,5 kg (RPE 7-7,5)", "3x4 @ 120 kg (RPE 7-8)", "3x5 @ 92,5 kg (RPE 6-7)", "3x6 @ 130 kg (RPE 8)", "3x8/cama @ 65 kg total (RPE 8)", "3x10 @ RPE 8", "3x60s @ moderat"],
+      ["DELOAD", "1x1 @ 150 kg (RPE 5-6)", "3x4 @ 115 kg (RPE 5)", "2x4 @ 95 kg (RPE 5)", "2x5 @ 75 kg (RPE 5)", "2x6 @ 100 kg (RPE 6)", "2x8/cama @ 50 kg total (RPE 6)", "2x10 @ RPE 6", "2x30-45s @ lleuger"],
+      ["Força", "1x1 @ 170 kg (RPE 8)", "3x3 @ 145 kg (RPE 7)", "3x3 @ 122,5 kg (RPE 7)", "3x4 @ 95 kg (RPE 6)", "3x6 @ 132,5 kg (RPE 7-8)", "3x6-8/cama @ 65 kg total (RPE 7)", "3x10 @ RPE 7", "3x45-60s @ moderat"],
+      ["Força", "1x1 @ 172,5 kg (RPE 8)", "3x3 @ 147,5 kg (RPE 7-7,5)", "3x3 @ 125 kg (RPE 7-8)", "3x4 @ 97,5 kg (RPE 6-7)", "3x6 @ 135 kg (RPE 8)", "3x6-8/cama @ 67,5 kg total (RPE 8)", "3x10 @ RPE 8", "3x60s @ moderat"],
+      ["Força", "1x1 @ 175 kg (RPE 8,5)", "3x3 @ 150 kg (RPE 7,5-8)", "3x3 @ 127,5 kg (RPE 8)", "3x4 @ 100 kg (RPE 6-7)", "3x6 @ 137,5 kg (RPE 8)", "3x6/cama @ 70 kg total (RPE 8)", "3x8-10 @ RPE 8", "3x60s @ moderat"],
+      ["DELOAD", "1x1 @ 155 kg (RPE 5-6)", "2x3 @ 120 kg (RPE 5)", "2x3 @ 100 kg (RPE 5)", "2x4 @ 80 kg (RPE 5)", "2x6 @ 105 kg (RPE 6)", "2x6/cama @ 50 kg total (RPE 6)", "2x10 @ RPE 6", "2x30s @ lleuger"],
+      ["Intensificació", "1x1 @ 175 kg (RPE 8)", "3x2 @ 155 kg (RPE 7-7,5)", "2x3 @ 130 kg (RPE 7)", "3x3 @ 100 kg (RPE 6)", "3x5 @ 140 kg (RPE 7)", "3x6/cama @ 70 kg total (RPE 7)", "3x8-10 @ RPE 7", "3x45s @ moderat"],
+      ["Intensificació", "1x1 @ 177,5 kg (RPE 8,5)", "2x2 @ 160 kg (RPE 7,5-8)", "2x2 @ 132,5 kg (RPE 7)", "3x3 @ 102,5 kg (RPE 6)", "3x5 @ 145 kg (RPE 7-8)", "3x6/cama @ 72,5 kg total (RPE 7)", "3x8 @ RPE 7", "3x45s @ moderat"],
+      ["Intensificació / taper", "1x1 @ 180 kg (RPE 8,5-9)", "2x1 @ 165 kg (RPE 7)", "2x2 @ 115 kg (RPE 6)", "2x3 @ 90 kg (RPE 5)", "2x5 @ 120 kg (RPE 6)", "2x6/cama @ 55 kg total (RPE 6)", "2x8 @ RPE 6", "2x30s @ lleuger"],
+      ["TEST", "170x1 -> 182,5x1 -> 187,5-190x1 3r intent només si el 2n <= RPE 8,5", "-", "-", "-", "-", "-", "-", "-"],
+    ]
   },
+
   "Cardio": {
-    "0": {
-      "phase": "Zona 2",
-      "exercises": {
-        "Cardio zona 2": {
-          "work": "25-35 minuts · inclinació 5-10% · velocitat 4,5-6 km/h · intensitat zona 2"
-        },
-        "Rebuild Bloc 1: Knees": {
-          "work": "Vacances"
-        },
-        "Rebuild Bloc 2: Ankles": {
-          "work": "Vacances"
-        },
-        "Rebuild Bloc 3: Lumbar": {
-          "work": "Vacances"
-        },
-        "Rebuild Bloc 4: Shoulders": {
-          "work": "Vacances"
-        },
-        "Rebuild Bloc 5: Hip": {
-          "work": "Vacances"
-        }
-      }
-    },
-    "1": {
-      "phase": "Rebuild",
-      "exercises": {
-        "Cardio zona 2": {
-          "work": "25-35 minuts · inclinació 5-10% · velocitat 4,5-6 km/h · intensitat zona 2"
-        },
-        "Rebuild Bloc 1: Knees": {
-          "work": "Spanish Squat Hold: 3 x 30-45\" · Reverse Nordics: 3 x 6-8"
-        },
-        "Rebuild Bloc 2: Ankles": {
-          "work": "Single-leg calf raise (lent): 3 x 10 · Tibialis wall raises: 3 x 15-20"
-        },
-        "Rebuild Bloc 3: Lumbar": {
-          "work": "Back Extension ISO hold (a dalt): 3 x 20-30\" · Chinese reverse plank: 3 x 30-45\""
-        },
-        "Rebuild Bloc 4: Shoulders": {
-          "work": "Rotator cuff exercise: 3 x 10 · Dead hang actiu: 3 x 20-30\""
-        },
-        "Rebuild Bloc 5: Hip": {
-          "work": "Copenhagen plank curt: 3 x 20-30\" per costat · Banded lateral walks: 3 x 12-15 passos per costat"
-        }
-      }
-    },
-    "2": {
-      "phase": "Rebuild",
-      "exercises": {
-        "Cardio zona 2": {
-          "work": "25-35 minuts · inclinació 5-10% · velocitat 4,5-6 km/h · intensitat zona 2"
-        },
-        "Rebuild Bloc 1: Knees": {
-          "work": "Spanish Squat Hold: 3 x 30-45\" · Reverse Nordics: 3 x 6-8"
-        },
-        "Rebuild Bloc 2: Ankles": {
-          "work": "Single-leg calf raise (lent): 3 x 10 · Tibialis wall raises: 3 x 15-20"
-        },
-        "Rebuild Bloc 3: Lumbar": {
-          "work": "Back Extension ISO hold (a dalt): 3 x 20-30\" · Chinese reverse plank: 3 x 30-45\""
-        },
-        "Rebuild Bloc 4: Shoulders": {
-          "work": "Rotator cuff exercise: 3 x 10 · Dead hang actiu: 3 x 20-30\""
-        },
-        "Rebuild Bloc 5: Hip": {
-          "work": "Copenhagen plank curt: 3 x 20-30\" per costat · Banded lateral walks: 3 x 12-15 passos per costat"
-        }
-      }
-    },
-    "3": {
-      "phase": "Vacances",
-      "exercises": {
-        "Cardio zona 2": {
-          "work": "Vacances"
-        },
-        "Rebuild Bloc 1: Knees": {
-          "work": "Vacances"
-        },
-        "Rebuild Bloc 2: Ankles": {
-          "work": "Vacances"
-        },
-        "Rebuild Bloc 3: Lumbar": {
-          "work": "Vacances"
-        },
-        "Rebuild Bloc 4: Shoulders": {
-          "work": "Vacances"
-        },
-        "Rebuild Bloc 5: Hip": {
-          "work": "Vacances"
-        }
-      }
-    },
-    "4": {
-      "phase": "Rebuild",
-      "exercises": {
-        "Cardio zona 2": {
-          "work": "25-35 minuts · inclinació 5-10% · velocitat 4,5-6 km/h · intensitat zona 2"
-        },
-        "Rebuild Bloc 1: Knees": {
-          "work": "Spanish Squat Hold: 3 x 30-45\" · Reverse Nordics: 3 x 6-8"
-        },
-        "Rebuild Bloc 2: Ankles": {
-          "work": "Single-leg calf raise (lent): 3 x 10 · Tibialis wall raises: 3 x 15-20"
-        },
-        "Rebuild Bloc 3: Lumbar": {
-          "work": "Back Extension ISO hold (a dalt): 3 x 20-30\" · Chinese reverse plank: 3 x 30-45\""
-        },
-        "Rebuild Bloc 4: Shoulders": {
-          "work": "Rotator cuff exercise: 3 x 10 · Dead hang actiu: 3 x 20-30\""
-        },
-        "Rebuild Bloc 5: Hip": {
-          "work": "Copenhagen plank curt: 3 x 20-30\" per costat · Banded lateral walks: 3 x 12-15 passos per costat"
-        }
-      }
-    },
-    "5": {
-      "phase": "Rebuild",
-      "exercises": {
-        "Cardio zona 2": {
-          "work": "25-35 minuts · inclinació 5-10% · velocitat 4,5-6 km/h · intensitat zona 2"
-        },
-        "Rebuild Bloc 1: Knees": {
-          "work": "Spanish Squat Hold: 3 x 30-45\" · Reverse Nordics: 3 x 6-8"
-        },
-        "Rebuild Bloc 2: Ankles": {
-          "work": "Single-leg calf raise (lent): 3 x 10 · Tibialis wall raises: 3 x 15-20"
-        },
-        "Rebuild Bloc 3: Lumbar": {
-          "work": "Back Extension ISO hold (a dalt): 3 x 20-30\" · Chinese reverse plank: 3 x 30-45\""
-        },
-        "Rebuild Bloc 4: Shoulders": {
-          "work": "Rotator cuff exercise: 3 x 10 · Dead hang actiu: 3 x 20-30\""
-        },
-        "Rebuild Bloc 5: Hip": {
-          "work": "Copenhagen plank curt: 3 x 20-30\" per costat · Banded lateral walks: 3 x 12-15 passos per costat"
-        }
-      }
-    },
-    "6": {
-      "phase": "Rebuild",
-      "exercises": {
-        "Cardio zona 2": {
-          "work": "25-35 minuts · inclinació 5-10% · velocitat 4,5-6 km/h · intensitat zona 2"
-        },
-        "Rebuild Bloc 1: Knees": {
-          "work": "Spanish Squat Hold: 3 x 30-45\" · Reverse Nordics: 3 x 6-8"
-        },
-        "Rebuild Bloc 2: Ankles": {
-          "work": "Single-leg calf raise (lent): 3 x 10 · Tibialis wall raises: 3 x 15-20"
-        },
-        "Rebuild Bloc 3: Lumbar": {
-          "work": "Back Extension ISO hold (a dalt): 3 x 20-30\" · Chinese reverse plank: 3 x 30-45\""
-        },
-        "Rebuild Bloc 4: Shoulders": {
-          "work": "Rotator cuff exercise: 3 x 10 · Dead hang actiu: 3 x 20-30\""
-        },
-        "Rebuild Bloc 5: Hip": {
-          "work": "Copenhagen plank curt: 3 x 20-30\" per costat · Banded lateral walks: 3 x 12-15 passos per costat"
-        }
-      }
-    }
+    exercises: ["Zona 2", "90/90 Hip Switches", "Adductor Rockback", "Copenhagen Plank", "Calf Raise", "Tibialis Raise", "External Rotation"],
+    weeks: [
+      ["Readaptació", "25 min @ Zona 2", "2x8/costat @ controlat", "2x8/costat @ controlat", "2x20-30s/costat", "3x12-15 @ RPE 6-7", "3x15-20 @ RPE 6-7", "2-3x15-20 @ lleuger"],
+      ["Acumulació I", "30 min @ Zona 2", "2x8/costat @ controlat", "2x8/costat @ controlat", "2x20-30s/costat", "3x12-15 @ RPE 6-7", "3x15-20 @ RPE 6-7", "2-3x15-20 @ lleuger"],
+      ["Acumulació I", "32 min @ Zona 2", "2x8/costat @ controlat", "2x8/costat @ controlat", "2x20-30s/costat", "3x12-15 @ RPE 6-7", "3x15-20 @ RPE 6-7", "2-3x15-20 @ lleuger"],
+      ["Acumulació I", "35 min @ Zona 2", "2x8/costat @ controlat", "2x8/costat @ controlat", "2x20-30s/costat", "3x12-15 @ RPE 6-7", "3x15-20 @ RPE 6-7", "2-3x15-20 @ lleuger"],
+      ["DELOAD", "25 min @ Zona 2 suau", "2x6/costat @ controlat", "2x6/costat @ controlat", "2x15-20s/costat", "2x15 @ RPE 5-6", "2x15 @ RPE 5-6", "2x15 @ lleuger"],
+      ["Força base", "35 min @ Zona 2", "2x8/costat @ controlat", "2x8/costat @ controlat", "2x30-40s/costat", "3x12-15 @ RPE 6-7", "3x15-20 @ RPE 6-7", "2-3x15-20 @ lleuger"],
+      ["Força base", "37 min @ Zona 2", "2x8/costat @ controlat", "2x8/costat @ controlat", "2x30-40s/costat", "3x12-15 @ RPE 6-7", "3x15-20 @ RPE 6-7", "2-3x15-20 @ lleuger"],
+      ["Força base", "40 min @ Zona 2", "2x8/costat @ controlat", "2x8/costat @ controlat", "2x30-40s/costat", "3x12-15 @ RPE 6-7", "3x15-20 @ RPE 6-7", "2-3x15-20 @ lleuger"],
+      ["DELOAD", "30 min @ Zona 2 suau", "2x6/costat @ controlat", "2x6/costat @ controlat", "2x15-20s/costat", "2x15 @ RPE 5-6", "2x15 @ RPE 5-6", "2x15 @ lleuger"],
+      ["Força", "40 min @ Zona 2", "2x8/costat @ controlat", "2x8/costat @ controlat", "2x30-40s/costat", "3x12-15 @ RPE 6-7", "3x15-20 @ RPE 6-7", "2-3x15-20 @ lleuger"],
+      ["Força", "40 min @ Zona 2", "2x8/costat @ controlat", "2x8/costat @ controlat", "2x30-40s/costat", "3x12-15 @ RPE 6-7", "3x15-20 @ RPE 6-7", "2-3x15-20 @ lleuger"],
+      ["Força", "45 min @ Zona 2", "2x8/costat @ controlat", "2x8/costat @ controlat", "2x30-40s/costat", "3x12-15 @ RPE 6-7", "3x15-20 @ RPE 6-7", "2-3x15-20 @ lleuger"],
+      ["DELOAD", "30 min @ Zona 2 suau", "2x6/costat @ controlat", "2x6/costat @ controlat", "2x15-20s/costat", "2x15 @ RPE 5-6", "2x15 @ RPE 5-6", "2x15 @ lleuger"],
+      ["Intensificació", "40 min @ Zona 2", "2x8/costat @ controlat", "2x8/costat @ controlat", "2x30s/costat", "3x12-15 @ RPE 6-7", "3x15-20 @ RPE 6-7", "2-3x15-20 @ lleuger"],
+      ["Intensificació", "40 min @ Zona 2", "2x8/costat @ controlat", "2x8/costat @ controlat", "2x30s/costat", "3x12-15 @ RPE 6-7", "3x15-20 @ RPE 6-7", "2-3x15-20 @ lleuger"],
+      ["Intensificació / taper", "35 min @ Zona 2", "2x8/costat @ controlat", "2x8/costat @ controlat", "2x30s/costat", "3x12-15 @ RPE 6-7", "3x15-20 @ RPE 6-7", "2-3x15-20 @ lleuger"],
+      ["TEST", "25 min @ Zona 2 molt suau", "2x6/costat @ controlat", "2x6/costat @ controlat", "2x15s/costat", "2x12 @ fàcil", "2x12 @ fàcil", "2x15 @ molt lleuger"],
+    ]
   },
+
   "Upper 2": {
-    "0": {
-      "phase": "Vacances",
-      "exercises": {
-        "Deadlift competició single": {
-          "work": "Vacances"
-        },
-        "Deadlift competició volum": {
-          "work": "Vacances"
-        },
-        "Squat pausada": {
-          "work": "Vacances"
-        },
-        "Bench agarre tancat": {
-          "work": "Vacances"
-        },
-        "Extensió lumbar a 45 graus": {
-          "work": "Vacances"
-        },
-        "Pallof press": {
-          "work": "Vacances"
-        }
-      }
-    },
-    "1": {
-      "phase": "Build",
-      "exercises": {
-        "Deadlift competició single": {
-          "top": "1x1 @ 160 kg / RPE 6"
-        },
-        "Deadlift competició volum": {
-          "work": "4x3 @ 130 kg / RPE 6"
-        },
-        "Squat pausada": {
-          "work": "4x3 @ 107,5 kg / RPE 6"
-        },
-        "Bench agarre tancat": {
-          "work": "6x3 @ 85 kg / RPE 6-7"
-        },
-        "Extensió lumbar a 45 graus": {
-          "work": "8-12x3 @ pes corporal / RPE 7"
-        },
-        "Pallof press": {
-          "work": "10-12x3/costat @ 10-12,5 kg"
-        }
-      }
-    },
-    "2": {
-      "phase": "Build",
-      "exercises": {
-        "Deadlift competició single": {
-          "top": "1x1 @ 170 kg / RPE 7"
-        },
-        "Deadlift competició volum": {
-          "work": "3x4 @ 140 kg / RPE 6,5-7"
-        },
-        "Squat pausada": {
-          "work": "3x3 @ 117,5 kg / RPE 6,5"
-        },
-        "Bench agarre tancat": {
-          "work": "5x3 @ 87,5 kg / RPE 7"
-        },
-        "Extensió lumbar a 45 graus": {
-          "work": "8-12x3 @ +5-10 kg / RPE 7"
-        },
-        "Pallof press": {
-          "work": "10-12x3/costat @ 12,5 kg"
-        }
-      }
-    },
-    "3": {
-      "phase": "Vacances",
-      "exercises": {
-        "Deadlift competició single": {
-          "work": "Vacances"
-        },
-        "Deadlift competició volum": {
-          "work": "Vacances"
-        },
-        "Squat pausada": {
-          "work": "Vacances"
-        },
-        "Bench agarre tancat": {
-          "work": "Vacances"
-        },
-        "Extensió lumbar a 45 graus": {
-          "work": "Vacances"
-        },
-        "Pallof press": {
-          "work": "Vacances"
-        }
-      }
-    },
-    "4": {
-      "phase": "Build",
-      "exercises": {
-        "Deadlift competició single": {
-          "top": "1x1 @ 165 kg / RPE 6,5"
-        },
-        "Deadlift competició volum": {
-          "work": "4x3 @ 135 kg / RPE 6"
-        },
-        "Squat pausada": {
-          "work": "4x3 @ 112,5 kg / RPE 6"
-        },
-        "Bench agarre tancat": {
-          "work": "6x3 @ 87,5 kg / RPE 6-7"
-        },
-        "Extensió lumbar a 45 graus": {
-          "work": "8-12x3 @ pes corporal / RPE 7"
-        },
-        "Pallof press": {
-          "work": "10-12x3/costat @ 10-12,5 kg"
-        }
-      }
-    },
-    "5": {
-      "phase": "Push",
-      "exercises": {
-        "Deadlift competició single": {
-          "top": "1x1 @ 175 kg / RPE 7,5"
-        },
-        "Deadlift competició volum": {
-          "work": "3x4 @ 145 kg / RPE 7"
-        },
-        "Squat pausada": {
-          "work": "3x3 @ 121,25 kg / RPE 7"
-        },
-        "Bench agarre tancat": {
-          "work": "5x4 @ 91,25 kg / RPE 7"
-        },
-        "Extensió lumbar a 45 graus": {
-          "work": "8-12x3 @ +10 kg / RPE 7-8"
-        },
-        "Pallof press": {
-          "work": "10-12x3/costat @ 12,5-15 kg"
-        }
-      }
-    },
-    "6": {
-      "phase": "Push",
-      "exercises": {
-        "Deadlift competició single": {
-          "top": "1x1 @ 180 kg / RPE 8"
-        },
-        "Deadlift competició volum": {
-          "work": "2x3 @ 155 kg / RPE 7-7,5"
-        },
-        "Squat pausada": {
-          "work": "3x2 @ 117,5 kg / RPE 6-7"
-        },
-        "Bench agarre tancat": {
-          "work": "4x3 @ 95 kg / RPE 7"
-        },
-        "Extensió lumbar a 45 graus": {
-          "work": "Opcional o 8-10x2 @ pes corporal"
-        },
-        "Pallof press": {
-          "work": "10-12x3/costat @ 12,5 kg"
-        }
-      }
-    }
+    exercises: ["Paused Bench Press", "Close-Grip Bench", "Overhead Press", "Chest Supported Row", "Lateral Raises", "Rear Delt / Face Pull", "Triceps"],
+    weeks: [
+      ["Readaptació", "3x6 @ 87,5 kg (RPE 5-6)", "2x8 @ 75 kg (RPE 6)", "2x8 @ 45 kg (RPE 6)", "3x10 @ 30 kg/costat (RPE 6)", "2x15 @ 10 kg", "2x15 @ RPE 6", "2x12 @ RPE 6"],
+      ["Acumulació I", "4x6 @ 90 kg (RPE 6)", "3x8 @ 77,5 kg (RPE 7)", "3x8 @ 47,5 kg (RPE 7)", "4x10 @ 32,5 kg/costat (RPE 7)", "3x12 @ 10 kg", "3x15 @ RPE 7", "3x12 @ RPE 7"],
+      ["Acumulació I", "4x6 @ 92,5 kg (RPE 6-7)", "3x8 @ 80 kg (RPE 7)", "3x8 @ 50 kg (RPE 7)", "4x10 @ 35 kg/costat (RPE 7)", "3x12 @ 12,5 kg", "3x15 @ RPE 7", "3x12-15 @ RPE 7"],
+      ["Acumulació I", "4x6 @ 95 kg (RPE 7)", "3x8 @ 82,5 kg (RPE 8)", "3x8 @ 52,5 kg (RPE 8)", "4x10 @ 37,5 kg/costat (RPE 7-8)", "3x12 @ 12,5 kg", "3x15 @ RPE 7-8", "3x10-12 @ RPE 8"],
+      ["DELOAD", "2x6 @ 80 kg (RPE 5)", "2x8 @ 70 kg (RPE 6)", "2x8 @ 40 kg (RPE 6)", "2x10 @ 25 kg/costat (RPE 6)", "2x12 @ 7,5 kg", "2x15 @ RPE 6", "2x12 @ RPE 6"],
+      ["Força base", "4x5 @ 97,5 kg (RPE 6-7)", "3x6 @ 85 kg (RPE 7)", "3x6 @ 55 kg (RPE 7)", "4x8 @ 40 kg/costat (RPE 7)", "3x12 @ 12,5 kg", "3x15 @ RPE 7", "3x10-12 @ RPE 7"],
+      ["Força base", "4x5 @ 100 kg (RPE 7)", "3x6 @ 87,5 kg (RPE 7-8)", "3x6 @ 57,5 kg (RPE 7-8)", "4x8 @ 42,5 kg/costat (RPE 7-8)", "3x12 @ 15 kg", "3x15 @ RPE 7", "3x10-12 @ RPE 7-8"],
+      ["Força base", "4x5 @ 102,5 kg (RPE 7-8)", "3x6 @ 90 kg (RPE 8)", "3x6 @ 60 kg (RPE 8)", "4x8 @ 45 kg/costat (RPE 8)", "3x12 @ 15 kg", "3x15 @ RPE 7-8", "3x10 @ RPE 8"],
+      ["DELOAD", "2x5 @ 82,5 kg (RPE 5)", "2x6 @ 75 kg (RPE 6)", "2x6 @ 45 kg (RPE 6)", "2x8 @ 30 kg/costat (RPE 6)", "2x12 @ 10 kg", "2x15 @ RPE 6", "2x12 @ RPE 6"],
+      ["Força", "4x4 @ 105 kg (RPE 7)", "3x6 @ 92,5 kg (RPE 7-8)", "3x6 @ 60 kg (RPE 7-8)", "4x8 @ 45 kg/costat (RPE 7-8)", "3x10-12 @ 15 kg", "3x15 @ RPE 7", "3x10 @ RPE 7-8"],
+      ["Força", "4x4 @ 107,5 kg (RPE 7-8)", "3x6 @ 95 kg (RPE 8)", "3x6 @ 62,5 kg (RPE 8)", "4x8 @ 47,5 kg/costat (RPE 8)", "3x10-12 @ 17,5 kg", "3x15 @ RPE 7-8", "3x8-10 @ RPE 8"],
+      ["Força", "4x4 @ 110 kg (RPE 8)", "3x5 @ 97,5 kg (RPE 8)", "3x5 @ 65 kg (RPE 8)", "4x8 @ 50 kg/costat (RPE 8)", "3x10 @ 17,5 kg", "3x12-15 @ RPE 8", "3x8-10 @ RPE 8"],
+      ["DELOAD", "2x4 @ 87,5 kg (RPE 5)", "2x6 @ 80 kg (RPE 6)", "2x6 @ 47,5 kg (RPE 6)", "2x8 @ 35 kg/costat (RPE 6)", "2x12 @ 10 kg", "2x15 @ RPE 6", "2x10 @ RPE 6"],
+      ["Intensificació", "4x3 @ 112,5 kg (RPE 7-8)", "3x5 @ 100 kg (RPE 7)", "3x5 @ 62,5 kg (RPE 7)", "3x8 @ 50 kg/costat (RPE 7)", "3x10 @ 17,5 kg", "2x15 @ RPE 7", "3x8 @ RPE 7"],
+      ["Intensificació", "3x3 @ 115 kg (RPE 8)", "2x5 @ 102,5 kg (RPE 7)", "2x5 @ 65 kg (RPE 7)", "3x8 @ 52,5 kg/costat (RPE 7-8)", "3x10 @ 17,5 kg", "2x15 @ RPE 7", "2x8 @ RPE 7"],
+      ["Intensificació / taper", "2x2 @ 115 kg (RPE 6-7)", "2x5 @ 90 kg (RPE 6)", "2x5 @ 55 kg (RPE 6)", "3x6-8 @ 45 kg/costat (RPE 6-7)", "2x12 @ 12,5 kg", "2x15 @ RPE 6", "2x10 @ RPE 6"],
+      ["TEST", "2x5 @ 75 kg (RPE 4-5)", "-", "-", "2x8 @ 30 kg/costat (RPE 5)", "2x15 @ 7,5 kg", "2x15 @ molt lleuger", "-"],
+    ]
   },
+
   "Lower 2": {
-    "0": {
-      "phase": "Vacances / zona 2",
-      "exercises": {
-        "Bench pausada / tècnica": {
-          "work": "Vacances"
-        },
-        "Squat tempo / tècnic": {
-          "work": "Vacances"
-        },
-        "Rem assegut": {
-          "work": "Vacances"
-        },
-        "Face pulls": {
-          "work": "Vacances"
-        },
-        "Curl martell amb manuelles": {
-          "work": "Vacances"
-        },
-        "Extensió de tríceps overhead amb corda": {
-          "work": "Vacances"
-        },
-        "Cinta inclinada caminant": {
-          "work": "25-35 minuts · inclinació 5-10% · velocitat 4,5-6 km/h · intensitat zona 2"
-        }
-      }
-    },
-    "1": {
-      "phase": "Build",
-      "exercises": {
-        "Bench pausada / tècnica": {
-          "work": "5x5 @ 87,5 kg / RPE 6"
-        },
-        "Squat tempo / tècnic": {
-          "work": "5x3 @ 98,75 kg / RPE 6"
-        },
-        "Rem assegut": {
-          "work": "10x4 @ 75 kg / RPE 7"
-        },
-        "Face pulls": {
-          "work": "15x3 @ 32 kg / RPE 7"
-        },
-        "Curl martell amb manuelles": {
-          "work": "10-15x2-3 @ 12,5 kg / RPE 7-8"
-        },
-        "Extensió de tríceps overhead amb corda": {
-          "work": "10-15x2-3 @ 30-32 kg / RPE 7-8"
-        },
-        "Cinta inclinada caminant": {
-          "work": "Opcional · 25-35 minuts · inclinació 5-10% · velocitat 4,5-6 km/h · intensitat zona 2"
-        }
-      }
-    },
-    "2": {
-      "phase": "Build",
-      "exercises": {
-        "Bench pausada / tècnica": {
-          "work": "6x4 @ 91,25 kg / RPE 6,5"
-        },
-        "Squat tempo / tècnic": {
-          "work": "5x2 @ 107,5 kg / RPE 6"
-        },
-        "Rem assegut": {
-          "work": "10x3 @ 80 kg / RPE 7"
-        },
-        "Face pulls": {
-          "work": "15x3 @ 32-38 kg / RPE 8"
-        },
-        "Curl martell amb manuelles": {
-          "work": "10-15x2-3 @ 12,5-15 kg / RPE 8"
-        },
-        "Extensió de tríceps overhead amb corda": {
-          "work": "10-15x2-3 @ 32-35 kg / RPE 8"
-        },
-        "Cinta inclinada caminant": {
-          "work": "Opcional · 25-35 minuts · inclinació 5-10% · velocitat 4,5-6 km/h · intensitat zona 2"
-        }
-      }
-    },
-    "3": {
-      "phase": "Vacances",
-      "exercises": {
-        "Bench pausada / tècnica": {
-          "work": "Vacances"
-        },
-        "Squat tempo / tècnic": {
-          "work": "Vacances"
-        },
-        "Rem assegut": {
-          "work": "Vacances"
-        },
-        "Face pulls": {
-          "work": "Vacances"
-        },
-        "Curl martell amb manuelles": {
-          "work": "Vacances"
-        },
-        "Extensió de tríceps overhead amb corda": {
-          "work": "Vacances"
-        },
-        "Cinta inclinada caminant": {
-          "work": "Vacances"
-        }
-      }
-    },
-    "4": {
-      "phase": "Build",
-      "exercises": {
-        "Bench pausada / tècnica": {
-          "work": "5x5 @ 91,25 kg / RPE 6-6,5"
-        },
-        "Squat tempo / tècnic": {
-          "work": "5x3 @ 103,75 kg / RPE 6"
-        },
-        "Rem assegut": {
-          "work": "10x3 @ 80 kg / RPE 7"
-        },
-        "Face pulls": {
-          "work": "15x3 @ 32-38 kg / RPE 7-8"
-        },
-        "Curl martell amb manuelles": {
-          "work": "12-15x2-3 @ 12,5-15 kg / RPE 8"
-        },
-        "Extensió de tríceps overhead amb corda": {
-          "work": "12-15x2-3 @ 32-35 kg / RPE 8"
-        },
-        "Cinta inclinada caminant": {
-          "work": "Opcional · 25-35 minuts · inclinació 5-10% · velocitat 4,5-6 km/h · intensitat zona 2"
-        }
-      }
-    },
-    "5": {
-      "phase": "Push",
-      "exercises": {
-        "Bench pausada / tècnica": {
-          "work": "6x4 @ 95 kg / RPE 7"
-        },
-        "Squat tempo / tècnic": {
-          "work": "3x3 @ 117,5 kg / RPE 7"
-        },
-        "Rem assegut": {
-          "work": "10x4 @ 85 kg / RPE 8"
-        },
-        "Face pulls": {
-          "work": "15x3 @ 38-44 kg / RPE 8"
-        },
-        "Curl martell amb manuelles": {
-          "work": "12-15x3 @ 15 kg / RPE 8"
-        },
-        "Extensió de tríceps overhead amb corda": {
-          "work": "12-15x3 @ 35-37,5 kg / RPE 8"
-        },
-        "Cinta inclinada caminant": {
-          "work": "Opcional · 25-35 minuts · inclinació 5-10% · velocitat 4,5-6 km/h · intensitat zona 2"
-        }
-      }
-    },
-    "6": {
-      "phase": "Push",
-      "exercises": {
-        "Bench pausada / tècnica": {
-          "work": "5x3 @ 91,25 kg / RPE 6-7"
-        },
-        "Squat tempo / tècnic": {
-          "work": "5x2 @ 107,5 kg / RPE 6"
-        },
-        "Rem assegut": {
-          "work": "10x3 @ 80 kg / RPE 7"
-        },
-        "Face pulls": {
-          "work": "15x3 @ 32-38 kg / RPE 7-8"
-        },
-        "Curl martell amb manuelles": {
-          "work": "12-15x3 @ 15 kg / RPE 8"
-        },
-        "Extensió de tríceps overhead amb corda": {
-          "work": "12-15x3 @ 35-37,5 kg / RPE 8"
-        },
-        "Cinta inclinada caminant": {
-          "work": "Opcional · 25-35 minuts · inclinació 5-10% · velocitat 4,5-6 km/h · intensitat zona 2"
-        }
-      }
-    }
-  }
+    exercises: ["Deadlift - Top Set", "Conventional Deadlift", "Paused Deadlift", "Belt Squat / Hack Squat", "Hamstring Curl", "Ab Wheel", "Calf Raise"],
+    weeks: [
+      ["Readaptació", "1x1 @ 160 kg (RPE 5-6)", "3x4 @ 135 kg (RPE 5-6)", "2x4 @ 115 kg (RPE 5)", "2x10 @ RPE 6", "2x12 @ RPE 6", "2x8-10 @ controlat", "2x12-15 @ RPE 6"],
+      ["Acumulació I", "1x1 @ 165 kg (RPE 6)", "4x4 @ 140 kg (RPE 6)", "3x4 @ 120 kg (RPE 6)", "3x10 @ RPE 7", "3x12 @ RPE 7", "3x10 @ controlat", "3x12-15 @ RPE 7"],
+      ["Acumulació I", "1x1 @ 170 kg (RPE 6,5)", "4x4 @ 145 kg (RPE 6-7)", "3x4 @ 125 kg (RPE 6-7)", "3x10 @ RPE 7", "3x12 @ RPE 7", "3x10 @ controlat", "3x12-15 @ RPE 7"],
+      ["Acumulació I", "1x1 @ 175 kg (RPE 7)", "4x4 @ 147,5 kg (RPE 7)", "3x4 @ 130 kg (RPE 7)", "3x10 @ RPE 8", "3x10-12 @ RPE 8", "3x10-12 @ controlat", "3x12 @ RPE 8"],
+      ["DELOAD", "1x1 @ 150 kg (RPE 5)", "2x4 @ 120 kg (RPE 5)", "2x4 @ 100 kg (RPE 5)", "2x10 @ RPE 6", "2x12 @ RPE 6", "2x8 @ fàcil", "2x12 @ RPE 6"],
+      ["Força base", "1x1 @ 175 kg (RPE 7)", "4x3 @ 150 kg (RPE 6,5-7)", "3x3 @ 135 kg (RPE 7)", "3x8-10 @ RPE 7", "3x10-12 @ RPE 7", "3x10 @ controlat", "3x12-15 @ RPE 7"],
+      ["Força base", "1x1 @ 180 kg (RPE 7,5)", "4x3 @ 155 kg (RPE 7)", "3x3 @ 140 kg (RPE 7-8)", "3x8-10 @ RPE 7-8", "3x10 @ RPE 7-8", "3x10 @ controlat", "3x12-15 @ RPE 7-8"],
+      ["Força base", "1x1 @ 185 kg (RPE 8)", "4x3 @ 157,5 kg (RPE 7-7,5)", "3x3 @ 145 kg (RPE 8)", "3x8 @ RPE 8", "3x10 @ RPE 8", "3x10-12 @ controlat", "3x12 @ RPE 8"],
+      ["DELOAD", "1x1 @ 160 kg (RPE 5-6)", "3x3 @ 125 kg (RPE 5)", "2x3 @ 110 kg (RPE 5)", "2x10 @ RPE 6", "2x10 @ RPE 6", "2x8 @ fàcil", "2x12 @ RPE 6"],
+      ["Força", "1x1 @ 185 kg (RPE 8)", "3x3 @ 160 kg (RPE 7)", "3x3 @ 147,5 kg (RPE 7-8)", "3x8 @ RPE 7", "3x10 @ RPE 7", "3x10 @ controlat", "3x12 @ RPE 7"],
+      ["Força", "1x1 @ 190 kg (RPE 8)", "3x3 @ 162,5 kg (RPE 7-8)", "3x3 @ 150 kg (RPE 8)", "3x8 @ RPE 8", "3x10 @ RPE 8", "3x10-12 @ controlat", "3x12 @ RPE 8"],
+      ["Força", "1x1 @ 192,5 kg (RPE 8,5)", "3x3 @ 165 kg (RPE 8)", "3x3 @ 152,5 kg (RPE 8)", "3x8 @ RPE 8", "3x8-10 @ RPE 8", "3x10-12 @ controlat", "3x12 @ RPE 8"],
+      ["DELOAD", "1x1 @ 170 kg (RPE 5-6)", "2x3 @ 130 kg (RPE 5)", "2x3 @ 115 kg (RPE 5)", "2x8 @ RPE 6", "2x10 @ RPE 6", "2x8 @ fàcil", "2x12 @ RPE 6"],
+      ["Intensificació", "1x1 @ 192,5 kg (RPE 8)", "3x2 @ 170 kg (RPE 7-7,5)", "2x3 @ 155 kg (RPE 7)", "3x8 @ RPE 7", "3x8-10 @ RPE 7", "3x10 @ controlat", "3x12 @ RPE 7"],
+      ["Intensificació", "1x1 @ 195 kg (RPE 8,5)", "2x2 @ 175 kg (RPE 7,5-8)", "2x2 @ 160 kg (RPE 7)", "3x8 @ RPE 7", "3x8 @ RPE 7", "3x10 @ controlat", "3x12 @ RPE 7"],
+      ["Intensificació / taper", "1x1 @ 197,5 kg (RPE 8,5-9)", "2x1 @ 180 kg (RPE 7)", "2x2 @ 145 kg (RPE 6)", "2x8 @ RPE 6", "2x8 @ RPE 6", "2x8 @ fàcil", "2x10 @ RPE 6"],
+      ["TEST", "185x1 -> 202,5x1 -> 207,5-212,5x1 3r intent només si el 2n <= RPE 8,5", "-", "-", "-", "-", "-", "-"],
+    ]
+  },
 };
+
+const TOP_SET_DAYS = new Set(["Upper 1", "Lower 1", "Lower 2"]);
+
+const progression = Object.fromEntries(
+  Object.entries(PROGRAM).map(([dayKey, day]) => [
+    dayKey,
+    Object.fromEntries(
+      day.weeks.map((week, weekIndex) => {
+        const [phase, ...values] = week;
+
+        const exercises = Object.fromEntries(
+          day.exercises.map((name, exerciseIndex) => [
+            name,
+            {
+              [TOP_SET_DAYS.has(dayKey) && exerciseIndex === 0
+                ? "top"
+                : "work"]: values[exerciseIndex]
+            }
+          ])
+        );
+
+        return [
+          String(weekIndex),
+          {
+            phase,
+            exercises
+          }
+        ];
+      })
+    )
+  ])
+);
 
 const APP_DAYS = [
   {
-    "key": "Upper 1",
-    "weekDay": "MONDAY",
-    "short": "MON",
-    "label": "Dia 1",
-    "focus": "Squat principal + bench volum"
+    key: "Upper 1",
+    weekDay: "MONDAY",
+    short: "MON",
+    label: "Dia 1",
+    focus: "Bench intensitat"
   },
   {
-    "key": "Lower 1",
-    "weekDay": "TUESDAY",
-    "short": "TUE",
-    "label": "Dia 2",
-    "focus": "Bench principal + esquena/tríceps"
+    key: "Lower 1",
+    weekDay: "TUESDAY",
+    short: "TUE",
+    label: "Dia 2",
+    focus: "Squat"
   },
   {
-    "key": "Cardio",
-    "weekDay": "WEDNESDAY",
-    "short": "WED",
-    "label": "Dia 3",
-    "focus": "Cardio zona 2 + Rebuild"
+    key: "Cardio",
+    weekDay: "WEDNESDAY",
+    short: "WED",
+    label: "Dia 3",
+    focus: "Cardio + mobilitat / salut articular"
   },
   {
-    "key": "Upper 2",
-    "weekDay": "THURSDAY",
-    "short": "THU",
-    "label": "Dia 4",
-    "focus": "Deadlift principal + squat variant + bench variant"
+    key: "Upper 2",
+    weekDay: "THURSDAY",
+    short: "THU",
+    label: "Dia 4",
+    focus: "Bench volum"
   },
   {
-    "key": "Lower 2",
-    "weekDay": "FRIDAY",
-    "short": "FRI",
-    "label": "Dia 5",
-    "focus": "Bench volum/tècnica + squat tècnic + accessoris"
+    key: "Lower 2",
+    weekDay: "FRIDAY",
+    short: "FRI",
+    label: "Dia 5",
+    focus: "Deadlift"
   }
 ];
 
 const APP_SETTINGS = {
-  "programName": "Powerlifting Block",
-  "startDate": "2026-07-13",
-  "baseWeek": 0,
-  "minWeek": 0,
-  "maxWeek": 6
+  programName: "Powerlifting Block",
+  startDate: "2026-08-24",
+  baseWeek: 0,
+  minWeek: 0,
+  maxWeek: 16
 };
 
-const CARDIO_SESSION = {
-  "phase": "Rebuild",
-  "exercises": {
-    "Cardio zona 2": {
-      "work": "25-35 minuts · inclinació 5-10% · velocitat 4,5-6 km/h · intensitat zona 2"
-    },
-    "Rebuild Bloc 1: Knees": {
-      "work": "Spanish Squat Hold: 3 x 30-45\" · Reverse Nordics: 3 x 6-8"
-    },
-    "Rebuild Bloc 2: Ankles": {
-      "work": "Single-leg calf raise (lent): 3 x 10 · Tibialis wall raises: 3 x 15-20"
-    },
-    "Rebuild Bloc 3: Lumbar": {
-      "work": "Back Extension ISO hold (a dalt): 3 x 20-30\" · Chinese reverse plank: 3 x 30-45\""
-    },
-    "Rebuild Bloc 4: Shoulders": {
-      "work": "Rotator cuff exercise: 3 x 10 · Dead hang actiu: 3 x 20-30\""
-    },
-    "Rebuild Bloc 5: Hip": {
-      "work": "Copenhagen plank curt: 3 x 20-30\" per costat · Banded lateral walks: 3 x 12-15 passos per costat"
-    }
-  }
-};
+const CARDIO_SESSION = progression["Cardio"]["0"];
 
-const WARMUPS = {
-  "Upper 1": [
-    {
-      "title": "Raise",
-      "detail": "5 min bike o caminada suau"
-    },
-    {
-      "title": "Mobilitat maluc/turmell",
-      "detail": "Hip CARs + ankle rocks · 2 rondes"
-    },
-    {
-      "title": "Activació",
-      "detail": "Glute bridge + dead bug · 2 x 10"
-    },
-    {
-      "title": "Ramp-up squat",
-      "detail": "Barra buida i sèries progressives fins al single"
-    },
-    {
-      "title": "Ramp-up bench",
-      "detail": "Sèries progressives abans del volum"
-    }
-  ],
-  "Lower 1": [
-    {
-      "title": "Raise",
-      "detail": "5 min rem o bike suau"
-    },
-    {
-      "title": "Espatlla",
-      "detail": "Band pull-aparts + external rotations · 2 x 15"
-    },
-    {
-      "title": "Escàpules",
-      "detail": "Scap push-ups · 2 x 10"
-    },
-    {
-      "title": "Ramp-up bench",
-      "detail": "Barra buida i sèries progressives fins al single"
-    }
-  ],
-  "Cardio": [
-    {
-      "title": "Raise",
-      "detail": "3-5 min de caminada suau"
-    },
-    {
-      "title": "Mobilitat general",
-      "detail": "Hip circles + cat-cow + arm circles"
-    },
-    {
-      "title": "Respiració",
-      "detail": "1-2 min nasal abans de zona 2"
-    }
-  ],
-  "Upper 2": [
-    {
-      "title": "Raise",
-      "detail": "5 min bike o rem suau"
-    },
-    {
-      "title": "Hinge prep",
-      "detail": "Hip hinge drill + hamstring sweep · 2 rondes"
-    },
-    {
-      "title": "Core activació",
-      "detail": "McGill curl-up + bird dog · 2 x 8"
-    },
-    {
-      "title": "Ramp-up deadlift",
-      "detail": "Sèries progressives fins al single"
-    },
-    {
-      "title": "Ramp-up variants",
-      "detail": "Squat pausada i bench tancat progressiu"
-    }
-  ],
-  "Lower 2": [
-    {
-      "title": "Raise",
-      "detail": "5 min rem o bike suau"
-    },
-    {
-      "title": "Espatlla i escàpula",
-      "detail": "Shoulder CARs + scap push-ups"
-    },
-    {
-      "title": "Maluc",
-      "detail": "Deep squat pry + hip CARs"
-    },
-    {
-      "title": "Ramp-up tècnic",
-      "detail": "Bench pausada i squat tempo progressius"
-    }
-  ]
-};
+const WARMUPS = Object.fromEntries(
+  APP_DAYS.map(day => [day.key, []])
+);
 
-const MOBILITY = {
-  "Upper 1": [
-    {
-      "title": "Couch stretch",
-      "detail": "2 x 30-45\" per costat"
-    },
-    {
-      "title": "Deep squat hold",
-      "detail": "2 x 30-45\""
-    },
-    {
-      "title": "Respiració supina",
-      "detail": "2 min per baixar revolucions"
-    }
-  ],
-  "Lower 1": [
-    {
-      "title": "Dead hang",
-      "detail": "2 x 20-30\""
-    },
-    {
-      "title": "Pec doorway stretch",
-      "detail": "2 x 30\" per costat"
-    },
-    {
-      "title": "Open book stretch",
-      "detail": "2 x 5 reps per costat"
-    }
-  ],
-  "Cardio": [
-    {
-      "title": "Calf stretch",
-      "detail": "2 x 30\" per costat"
-    },
-    {
-      "title": "Figure-4 stretch",
-      "detail": "2 x 30\" per costat"
-    },
-    {
-      "title": "Child's pose",
-      "detail": "2 x 30-45\""
-    }
-  ],
-  "Upper 2": [
-    {
-      "title": "Hamstring floss",
-      "detail": "2 x 8 per costat"
-    },
-    {
-      "title": "Hip flexor stretch",
-      "detail": "2 x 30\" per costat"
-    },
-    {
-      "title": "Lat stretch",
-      "detail": "2 x 30\" per costat"
-    }
-  ],
-  "Lower 2": [
-    {
-      "title": "Cossack squat",
-      "detail": "2 x 6-8 per costat"
-    },
-    {
-      "title": "Shoulder opener",
-      "detail": "2 x 8 reps"
-    },
-    {
-      "title": "Legs up breathing",
-      "detail": "2 min"
-    }
-  ]
-};
+const MOBILITY = Object.fromEntries(
+  APP_DAYS.map(day => [day.key, []])
+);
 
-const PROGRAM_BLUEPRINT = {
-  "Upper 1": [
-    {
-      "title": "Squat competició single",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    },
-    {
-      "title": "Squat competició volum",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    },
-    {
-      "title": "Bench competició volum",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    },
-    {
-      "title": "Rem amb suport al pit",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    },
-    {
-      "title": "Curl femoral",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    },
-    {
-      "title": "Crunch a politja agenollat",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    }
-  ],
-  "Lower 1": [
-    {
-      "title": "Bench competició single",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    },
-    {
-      "title": "Bench competició volum",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    },
-    {
-      "title": "Press militar / manuelles",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    },
-    {
-      "title": "Dominades / jaló",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    },
-    {
-      "title": "Pressdown de tríceps amb barra recta",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    },
-    {
-      "title": "Elevacions laterals",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    }
-  ],
-  "Cardio": [
-    {
-      "title": "Cardio zona 2",
-      "detail": "Veure detall concret a Daily / Plan"
-    },
-    {
-      "title": "Rebuild Bloc 1: Knees",
-      "detail": "Veure detall concret a Daily / Plan"
-    },
-    {
-      "title": "Rebuild Bloc 2: Ankles",
-      "detail": "Veure detall concret a Daily / Plan"
-    },
-    {
-      "title": "Rebuild Bloc 3: Lumbar",
-      "detail": "Veure detall concret a Daily / Plan"
-    },
-    {
-      "title": "Rebuild Bloc 4: Shoulders",
-      "detail": "Veure detall concret a Daily / Plan"
-    },
-    {
-      "title": "Rebuild Bloc 5: Hip",
-      "detail": "Veure detall concret a Daily / Plan"
-    }
-  ],
-  "Upper 2": [
-    {
-      "title": "Deadlift competició single",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    },
-    {
-      "title": "Deadlift competició volum",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    },
-    {
-      "title": "Squat pausada",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    },
-    {
-      "title": "Bench agarre tancat",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    },
-    {
-      "title": "Extensió lumbar a 45 graus",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    },
-    {
-      "title": "Pallof press",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    }
-  ],
-  "Lower 2": [
-    {
-      "title": "Bench pausada / tècnica",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    },
-    {
-      "title": "Squat tempo / tècnic",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    },
-    {
-      "title": "Rem assegut",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    },
-    {
-      "title": "Face pulls",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    },
-    {
-      "title": "Curl martell amb manuelles",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    },
-    {
-      "title": "Extensió de tríceps overhead amb corda",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    },
-    {
-      "title": "Cinta inclinada caminant",
-      "detail": "Veure càrrega concreta a Daily / Plan"
-    }
-  ]
-};
+const PROGRAM_BLUEPRINT = Object.fromEntries(
+  Object.entries(PROGRAM).map(([dayKey, day]) => [
+    dayKey,
+    day.exercises.map(title => ({
+      title,
+      detail:
+        dayKey === "Cardio"
+          ? "Veure detall concret a Daily / Plan"
+          : "Veure càrrega concreta a Daily / Plan"
+    }))
+  ])
+);
