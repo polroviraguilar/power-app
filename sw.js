@@ -1,4 +1,4 @@
-const CACHE_NAME = "power-app-weekstack-v2-juliol-2026-detallat-v1";
+const CACHE_NAME = "power-app-weekstack-v3-agost-2026-v1";
 const ASSETS = [
   "./",
   "./index.html",
